@@ -182,7 +182,7 @@ export default function Explore3D() {
         <Reveal delay={0.1}>
           {/* Tabs */}
           <div className="flex justify-center">
-            <div className="flex flex-wrap justify-center gap-px border border-ink/10 bg-ink/10 p-px">
+            <div className="flex w-full flex-col gap-px border border-ink/10 bg-ink/10 p-px sm:w-auto sm:flex-row">
               {tabs.map((t) => (
                 <button
                   key={t.id}
