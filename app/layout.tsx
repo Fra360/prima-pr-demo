@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,12 @@ const jost = Jost({
   variable: "--font-jost",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#101c26",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Casa Omero · Sperlonga — Luxury Holiday Home",

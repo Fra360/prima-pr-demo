@@ -30,7 +30,10 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6">
-        <a href="#top" className="flex items-baseline gap-2 text-white">
+        <a
+          href="#top"
+          className="flex items-baseline gap-2 whitespace-nowrap text-white"
+        >
           <span className="font-display text-2xl tracking-wide">
             Casa Omero
           </span>
@@ -39,7 +42,7 @@ export default function Navbar() {
           </span>
         </a>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
           {links.map((l) => (
             <li key={l.href}>
               <a
@@ -62,7 +65,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="flex flex-col gap-1.5 md:hidden"
+          className="-m-3 flex flex-col gap-1.5 p-3 lg:hidden"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
@@ -76,7 +79,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <ul className="flex flex-col gap-4 bg-ink/95 px-6 py-6 backdrop-blur-md md:hidden">
+        <ul className="flex flex-col gap-4 bg-ink/95 px-6 py-6 backdrop-blur-md lg:hidden">
           {[...links, { href: "#prenota", label: "Prenota" }].map((l) => (
             <li key={l.href}>
               <a

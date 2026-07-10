@@ -37,7 +37,7 @@ export default function About() {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <div className="relative">
+            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
               <div className="aspect-[4/5] overflow-hidden rounded-sm shadow-2xl shadow-sea-deep/20">
                 <Placeholder variant="interior" label="Il soggiorno" />
               </div>

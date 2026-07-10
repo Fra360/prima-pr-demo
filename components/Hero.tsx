@@ -18,8 +18,8 @@ export default function Hero() {
   const veil = useTransform(scrollYProgress, [0, 1], [0.25, 0.65]);
 
   return (
-    <section ref={ref} id="top" className="relative h-[115vh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <section ref={ref} id="top" className="relative h-[115svh]">
+      <div className="sticky top-0 h-svh min-h-[540px] overflow-hidden">
         {/* "Photo" backdrop — replace with your hero image */}
         <motion.div
           style={{

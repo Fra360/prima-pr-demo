@@ -2,13 +2,13 @@ import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
 
 const photos = [
-  { variant: "sea", label: "Terrazza vista mare", span: "md:col-span-2 md:row-span-2" },
+  { variant: "sea", label: "Terrazza vista mare", span: "sm:col-span-2 md:row-span-2" },
   { variant: "interior", label: "Camera matrimoniale", span: "" },
   { variant: "stone", label: "Bagno principale", span: "" },
   { variant: "sunset", label: "Tramonto dal balcone", span: "md:row-span-2" },
   { variant: "interior", label: "Cucina attrezzata", span: "" },
   { variant: "garden", label: "Esterni", span: "" },
-  { variant: "night", label: "Sperlonga di sera", span: "md:col-span-2" },
+  { variant: "night", label: "Sperlonga di sera", span: "sm:col-span-2" },
 ] as const;
 
 export default function Gallery() {
@@ -26,7 +26,7 @@ export default function Gallery() {
           </div>
         </Reveal>
 
-        <div className="grid auto-rows-[220px] grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="grid auto-rows-[240px] grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[220px] md:grid-cols-4">
           {photos.map((p, i) => (
             <Reveal
               key={p.label}
