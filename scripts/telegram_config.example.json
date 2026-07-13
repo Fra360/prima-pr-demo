@@ -1,0 +1,12 @@
+{
+  "main_token": "INCOLLA-QUI-IL-TOKEN-DEL-BOT-PRINCIPALE",
+  "chat_id": null,
+  "use_claude": false,
+  "agent_tokens": {
+    "game-designer": "",
+    "gameplay-programmer": "",
+    "level-designer": "",
+    "concept-artist": "",
+    "3d-artist": ""
+  }
+}

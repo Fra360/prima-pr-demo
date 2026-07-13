@@ -1,0 +1,12 @@
+# Segreti locali (token Telegram): non vanno mai su GitHub
+scripts/telegram_config.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Obsidian: lo stato locale dell'app resta fuori dal repo,
+# le impostazioni condivisibili (plugin, tema) possono essere committate
+.obsidian/workspace*
+.obsidian/cache
+.trash/
