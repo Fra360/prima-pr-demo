@@ -50,6 +50,15 @@ Per riconvertire un OBJ aggiornato:
 npx obj2gltf -i public/models/Casa.obj -o public/models/casa.glb --binary
 ```
 
+Se il GLB esportato è pesante, si può alleggerire senza perdita visiva (il sito lo supporta nativamente):
+
+```bash
+npx gltf-transform dedup casa.glb casa.glb && \
+npx gltf-transform prune casa.glb casa.glb && \
+npx gltf-transform weld casa.glb casa.glb && \
+npx gltf-transform quantize casa.glb casa.glb
+```
+
 - L'AR funziona da telefono sul sito pubblicato (serve HTTPS, su Vercel è automatico): Android usa Scene Viewer, iPhone Quick Look.
 - Per l'AR su **iPhone** serve anche un export **`.usdz`**: mettilo in `public/models/casa.usdz` e imposta `IOS_SRC` in `components/Explore3D.tsx`.
 

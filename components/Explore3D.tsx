@@ -50,7 +50,7 @@ function ModelTab() {
           shadow-intensity="1"
           shadow-softness="0.8"
           exposure="1.1"
-          camera-orbit="20deg 60deg 110%"
+          camera-orbit="20deg 35deg 105%"
           touch-action="pan-y"
           ar
           ar-modes="webxr scene-viewer quick-look"
@@ -211,9 +211,8 @@ export default function Explore3D() {
           </div>
 
           <p className="mt-6 text-center text-xs font-light italic text-ink-soft/50">
-            Modello reale della casa (convertito da Casa.obj) — per vedere
-            texture e colori esporta da Blender direttamente in GLB con i
-            materiali. L&apos;AR funziona dal telefono sul sito pubblicato
+            Il modello reale della casa — trascina per ruotarlo, pizzica per
+            lo zoom. L&apos;AR funziona dal telefono sul sito pubblicato
             (serve HTTPS).
           </p>
         </Reveal>
