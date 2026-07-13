@@ -42,7 +42,13 @@ Metti il tuo video AI in **`public/videos/hero.mp4`**: il componente `Hero` lo r
 
 ### Modello 3D + AR
 
-Esporta il modello da Blender in **GLB** (con texture incorporate: `File → Export → glTF 2.0`, formato `glTF Binary`) e sovrascrivi **`public/models/casa.glb`**. Il segnaposto attuale si rigenera con `node scripts/generate-placeholder-glb.js`.
+Il modello attuale (`public/models/casa.glb`) è la conversione di `public/models/Casa.obj`. L'OBJ non porta con sé materiali/texture (serve il file `.mtl` + le immagini), quindi il formato consigliato è il **GLB**: da Blender `File → Export → glTF 2.0`, formato `glTF Binary`, con i materiali — tutto finisce in un unico file, texture comprese. Sovrascrivi **`public/models/casa.glb`** e il sito lo mostra subito.
+
+Per riconvertire un OBJ aggiornato:
+
+```bash
+npx obj2gltf -i public/models/Casa.obj -o public/models/casa.glb --binary
+```
 
 - L'AR funziona da telefono sul sito pubblicato (serve HTTPS, su Vercel è automatico): Android usa Scene Viewer, iPhone Quick Look.
 - Per l'AR su **iPhone** serve anche un export **`.usdz`**: mettilo in `public/models/casa.usdz` e imposta `IOS_SRC` in `components/Explore3D.tsx`.

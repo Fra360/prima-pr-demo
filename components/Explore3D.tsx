@@ -37,7 +37,7 @@ function ModelTab() {
   }, []);
 
   return (
-    <div className="relative h-[60svh] min-h-[420px] w-full bg-ivory-dark">
+    <div className="relative h-[60svh] min-h-[420px] w-full bg-sea-deep">
       {ready ? (
         <model-viewer
           src={MODEL_SRC}
@@ -50,11 +50,16 @@ function ModelTab() {
           shadow-intensity="1"
           shadow-softness="0.8"
           exposure="1.1"
-          camera-orbit="30deg 78deg 115%"
+          camera-orbit="20deg 60deg 110%"
           touch-action="pan-y"
           ar
           ar-modes="webxr scene-viewer quick-look"
-          style={{ width: "100%", height: "100%" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(ellipse at 50% 35%, #2e5d6b 0%, #16323c 60%, #101c26 100%)",
+          }}
         >
           <button
             slot="ar-button"
@@ -206,9 +211,10 @@ export default function Explore3D() {
           </div>
 
           <p className="mt-6 text-center text-xs font-light italic text-ink-soft/50">
-            Modello segnaposto — sostituiscilo con il tuo export GLB per
-            vedere texture e dettagli reali. L&apos;AR funziona dal telefono
-            sul sito pubblicato (serve HTTPS).
+            Modello reale della casa (convertito da Casa.obj) — per vedere
+            texture e colori esporta da Blender direttamente in GLB con i
+            materiali. L&apos;AR funziona dal telefono sul sito pubblicato
+            (serve HTTPS).
           </p>
         </Reveal>
       </div>
