@@ -18,7 +18,7 @@ gantt
     section Pre-produzione (sett. 1-2)
     GDD v1.0 completo (GD)                 :gd1, 2026-07-20, 10d
     Direzione artistica e palette (CA)     :ca1, 2026-07-20, 7d
-    Setup progetto Godot + repo (PR)       :pr1, 2026-07-20, 5d
+    Setup progetto Unity 6 + repo (PR)     :pr1, 2026-07-20, 5d
     Pipeline asset 3D documentata (PR+3D)  :pr2, after pr1, 4d
     Studio stile e primi test modello (3D) :d31, after ca1, 5d
 
@@ -57,7 +57,7 @@ gantt
 ## Le tue task da 3D artist, in ordine
 
 1. **Sett. 2**: leggi la direzione artistica del concept artist, fai 1–2
-   modelli di prova per validare stile e pipeline di import in Godot.
+   modelli di prova per validare stile e pipeline di import in Unity.
 2. **Sett. 4–5**: **Faro esterno** — l'hero asset. Prenditi il tempo che serve.
 3. **Sett. 5–6**: molo e barca (prima inquadratura del gioco).
 4. **Sett. 6–8**: casa del guardiano, esterno + interno.

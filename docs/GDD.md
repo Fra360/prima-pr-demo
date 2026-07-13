@@ -28,7 +28,7 @@ alla volta.
 |---|---|
 | Genere | Esplorazione / puzzle, cozy, senza combattimento |
 | Visuale | Prima persona (fallback: terza persona semplice) |
-| Motore | Godot 4 (gratuito, leggero, export web per demo giocabile nel portfolio) |
+| Motore | Unity 6 (URP, export WebGL per demo giocabile nel portfolio) |
 | Durata target | 30–45 minuti |
 | Piattaforma | PC + build web (itch.io) |
 | Stile | Low-poly stilizzato, palette calda, luce di tramonto |
@@ -51,7 +51,7 @@ modelli).
 
 | Meccanica | Descrizione | Note implementative |
 |---|---|---|
-| Movimento | Camminata, niente salto acrobatico, scale a pioli interagibili | CharacterBody3D standard |
+| Movimento | Camminata, niente salto acrobatico, scale a pioli interagibili | CharacterController standard |
 | Interazione | Un solo tasto contestuale (E): raccogli, aziona, inserisci | Raycast dalla camera |
 | Inventario | Max 3 oggetti, mostrati come icone | Niente crafting |
 | Puzzle "energia" | Collegare/ruotare condotti per portare corrente ai meccanismi | Meccanica firma del gioco |
