@@ -30,6 +30,12 @@ const tabs: { id: Tab; label: string }[] = [
 
 function ModelTab() {
   const [ready, setReady] = useState(false);
+  // Su touchscreen il viewer parte "bloccato": un dito scorre la pagina
+  // normalmente finché non si tocca "Esplora in 3D". Da lì il dito ruota
+  // il modello, e "Fine" restituisce lo scroll alla pagina (pattern alla
+  // Google Maps: evita sia lo scroll che ruba la rotazione, sia il
+  // modello che intrappola la pagina).
+  const [interactive, setInteractive] = useState(false);
 
   useEffect(() => {
     // Il web component va registrato solo nel browser
@@ -73,6 +79,40 @@ function ModelTab() {
           </button>
         </model-viewer>
       ) : (
+        <></>
+      )}
+
+      {ready && !interactive && (
+        // Scudo touch: visibile solo su touchscreen. Un dito sopra di esso
+        // scorre la pagina come al solito; il tap lo rimuove e attiva la
+        // rotazione del modello.
+        <button
+          onClick={() => setInteractive(true)}
+          aria-label="Attiva la rotazione del modello 3D"
+          className="absolute inset-0 hidden w-full touch-auto items-end justify-center bg-transparent pb-6 pointer-coarse:flex"
+        >
+          <span className="pointer-events-none flex items-center gap-2 border border-gold/60 bg-ink/70 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8 13V5.5a1.5 1.5 0 013 0V12m0-2.5a1.5 1.5 0 013 0V12m0-1a1.5 1.5 0 013 0v1m0 0a1.5 1.5 0 013 0v3a7 7 0 01-7 7h-1.5a7 7 0 01-5.6-2.8L4.5 15a1.7 1.7 0 012.7-2L8 14" />
+            </svg>
+            Tocca per esplorare in 3D
+          </span>
+        </button>
+      )}
+
+      {ready && interactive && (
+        <button
+          onClick={() => setInteractive(false)}
+          className="absolute right-4 top-4 hidden items-center gap-2 border border-white/40 bg-ink/70 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur transition-colors hover:border-gold pointer-coarse:flex"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+          Fine
+        </button>
+      )}
+
+      {!ready && (
         <div className="flex h-full items-center justify-center">
           <span className="text-xs font-medium uppercase tracking-[0.3em] text-ink-soft/50">
             Caricamento modello…
