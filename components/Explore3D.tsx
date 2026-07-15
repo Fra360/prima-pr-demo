@@ -51,7 +51,8 @@ function ModelTab() {
           shadow-softness="0.8"
           exposure="1.1"
           camera-orbit="20deg 35deg 105%"
-          touch-action="pan-y"
+          touch-action="none"
+          interaction-prompt="none"
           ar
           ar-modes="webxr scene-viewer quick-look"
           style={{
