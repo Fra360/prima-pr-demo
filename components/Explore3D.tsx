@@ -36,10 +36,12 @@ function ModelTab() {
   // Google Maps: evita sia lo scroll che ruba la rotazione, sia il
   // modello che intrappola la pagina).
   const [interactive, setInteractive] = useState(false);
+  const [coarse, setCoarse] = useState(false);
 
   useEffect(() => {
     // Il web component va registrato solo nel browser
     import("@google/model-viewer").then(() => setReady(true));
+    setCoarse(window.matchMedia("(pointer: coarse)").matches);
   }, []);
 
   return (
@@ -68,15 +70,21 @@ function ModelTab() {
               "radial-gradient(ellipse at 50% 35%, #2e5d6b 0%, #16323c 60%, #101c26 100%)",
           }}
         >
-          <button
-            slot="ar-button"
-            className="absolute bottom-5 right-5 flex items-center gap-2 border border-gold bg-ivory/90 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink backdrop-blur transition-colors hover:bg-gold hover:text-white"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 3l7 4v10l-7 4-7-4V7l7-4zM12 12l7-4M12 12v9M12 12L5 8" />
-            </svg>
-            Guarda in AR
-          </button>
+          {/* Il pulsante AR compare solo dopo che si è entrati nella modalità
+              3D, così non si sovrappone alla pillola "Tocca per esplorare".
+              Su desktop lo scudo non c'è: mostriamo l'AR da subito (model-viewer
+              lo nasconde comunque da solo dove l'AR non è disponibile). */}
+          {(interactive || !coarse) && (
+            <button
+              slot="ar-button"
+              className="absolute bottom-5 right-5 flex items-center gap-2 border border-gold bg-ivory/90 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink backdrop-blur transition-colors hover:bg-gold hover:text-white"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3l7 4v10l-7 4-7-4V7l7-4zM12 12l7-4M12 12v9M12 12L5 8" />
+              </svg>
+              Guarda in AR
+            </button>
+          )}
         </model-viewer>
       ) : (
         <></>
