@@ -1,59 +1,77 @@
-type Variant = "sea" | "sunset" | "interior" | "stone" | "garden" | "night";
+type Tone = "char" | "copper" | "teal" | "violet" | "amber" | "steel";
 
-const gradients: Record<Variant, string> = {
-  sea: "linear-gradient(160deg, #9fc4cf 0%, #5f93a3 40%, #2e5d6b 100%)",
-  sunset: "linear-gradient(160deg, #e8c9a0 0%, #cf9a6b 45%, #8a5a3b 100%)",
-  interior: "linear-gradient(160deg, #ece4d6 0%, #cbb896 50%, #96794f 100%)",
-  stone: "linear-gradient(160deg, #d9d4ca 0%, #b0a898 50%, #6f6759 100%)",
-  garden: "linear-gradient(160deg, #c9d6bb 0%, #92a97f 50%, #4f6644 100%)",
-  night: "linear-gradient(160deg, #3a5060 0%, #22333f 55%, #101c26 100%)",
+const gradients: Record<Tone, string> = {
+  char: "linear-gradient(150deg, #26262b 0%, #17171a 55%, #0e0e10 100%)",
+  copper: "linear-gradient(150deg, #3a281c 0%, #24170f 55%, #120b07 100%)",
+  teal: "linear-gradient(150deg, #16333a 0%, #0e2229 55%, #08151a 100%)",
+  violet: "linear-gradient(150deg, #2c2340 0%, #1c1730 55%, #100c1c 100%)",
+  amber: "linear-gradient(150deg, #3d3018 0%, #261e0f 55%, #130f08 100%)",
+  steel: "linear-gradient(150deg, #2a3038 0%, #1a1f26 55%, #0d1014 100%)",
 };
 
+/**
+ * Segnaposto elegante in stile "viewport 3D": gradiente scuro, griglia
+ * prospettica sottile e icona a cubo. Sostituiscilo con l'immagine reale
+ * mettendo il file in /public/work e impostando `image` in lib/site.ts.
+ */
 export default function Placeholder({
-  variant = "sea",
+  tone = "char",
   label,
   className = "",
 }: {
-  variant?: Variant;
+  tone?: Tone;
   label?: string;
   className?: string;
 }) {
   return (
     <div
       className={`relative flex h-full w-full items-center justify-center overflow-hidden ${className}`}
-      style={{ background: gradients[variant] }}
+      style={{ background: gradients[tone] }}
       role="img"
-      aria-label={label ?? "Foto in arrivo"}
+      aria-label={label ?? "Render in arrivo"}
     >
-      {/* soft light flare */}
+      {/* griglia da viewport */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage:
+            "linear-gradient(var(--color-accent) 1px, transparent 1px), linear-gradient(90deg, var(--color-accent) 1px, transparent 1px)",
+          backgroundSize: "42px 42px",
+          maskImage:
+            "radial-gradient(ellipse at 50% 60%, black 10%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at 50% 60%, black 10%, transparent 75%)",
+        }}
+      />
+      {/* alone di luce */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 25% 15%, rgba(255,255,255,0.35) 0%, transparent 55%)",
+            "radial-gradient(ellipse at 35% 25%, rgba(224,162,100,0.18) 0%, transparent 55%)",
         }}
       />
-      <div className="relative flex flex-col items-center gap-3 px-6 text-center text-white/85">
+      <div className="relative flex flex-col items-center gap-3 px-6 text-center text-fg-dim">
         <svg
-          width="34"
-          height="34"
-          viewBox="0 0 24 24"
+          width="38"
+          height="38"
+          viewBox="0 0 32 32"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.2"
-          className="opacity-80"
+          strokeWidth="1.1"
+          strokeLinejoin="round"
+          className="opacity-70"
         >
-          <rect x="3" y="7" width="18" height="13" rx="2" />
-          <circle cx="12" cy="13.5" r="3.5" />
-          <path d="M8.5 7l1.2-2.4A1 1 0 0110.6 4h2.8a1 1 0 01.9.6L15.5 7" />
+          <path d="M16 3 L28 10 V22 L16 29 L4 22 V10 Z" />
+          <path d="M16 3 V16 M16 16 L4 10 M16 16 L28 10 M16 16 V29" opacity="0.6" />
         </svg>
         {label && (
-          <span className="font-display text-lg italic tracking-wide md:text-xl">
+          <span className="font-display text-base tracking-wide text-fg/90">
             {label}
           </span>
         )}
-        <span className="text-[10px] font-medium uppercase tracking-[0.25em] opacity-70">
-          Foto in arrivo
+        <span className="text-[10px] font-medium uppercase tracking-[0.28em] opacity-60">
+          Render in arrivo
         </span>
       </div>
     </div>

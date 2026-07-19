@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Logo from "./Logo";
 
 const links = [
-  { href: "#casa", label: "La Casa" },
-  { href: "#galleria", label: "Galleria" },
-  { href: "#esperienza3d", label: "3D & Tour" },
-  { href: "#servizi", label: "Servizi" },
-  { href: "#sperlonga", label: "Sperlonga" },
-  { href: "#recensioni", label: "Recensioni" },
+  { href: "#lavori", label: "Lavori" },
+  { href: "#showcase", label: "3D" },
+  { href: "#about", label: "Chi sono" },
+  { href: "#contatti", label: "Contatti" },
 ];
 
 export default function Navbar() {
@@ -26,29 +25,21 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-ink/90 py-3 shadow-lg shadow-black/10 backdrop-blur-md"
-          : "bg-transparent py-6"
+          ? "border-b border-line bg-bg/80 py-3 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent py-5"
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6">
-        <a
-          href="#top"
-          className="flex items-baseline gap-2 whitespace-nowrap text-white"
-        >
-          <span className="font-display text-2xl tracking-wide">
-            Casa Omero
-          </span>
-          <span className="hidden text-[10px] font-medium uppercase tracking-[0.3em] text-gold-light sm:inline">
-            Sperlonga
-          </span>
+        <a href="#top" aria-label="Torna su">
+          <Logo />
         </a>
 
-        <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
+        <ul className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="text-xs font-medium uppercase tracking-[0.2em] text-white/80 transition-colors hover:text-gold-light"
+                className="text-xs font-medium uppercase tracking-[0.2em] text-fg-dim transition-colors hover:text-accent"
               >
                 {l.label}
               </a>
@@ -56,42 +47,45 @@ export default function Navbar() {
           ))}
           <li>
             <a
-              href="#prenota"
-              className="border border-gold px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-gold-light transition-all hover:bg-gold hover:text-white"
+              href="#contatti"
+              className="border border-accent/50 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-accent transition-all hover:bg-accent hover:text-bg"
             >
-              Prenota
+              Lavoriamo insieme
             </a>
           </li>
         </ul>
 
-        {/* Mobile toggle */}
+        {/* Toggle mobile */}
         <button
-          className="-m-3 flex flex-col gap-1.5 p-3 lg:hidden"
+          className="-m-3 flex flex-col gap-1.5 p-3 md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
+          aria-expanded={open}
         >
           <span
-            className={`h-px w-7 bg-white transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
+            className={`h-px w-7 bg-fg transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
           />
           <span
-            className={`h-px w-7 bg-white transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
+            className={`h-px w-7 bg-fg transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
           />
         </button>
       </nav>
 
       {open && (
-        <ul className="flex flex-col gap-4 bg-ink/95 px-6 py-6 backdrop-blur-md lg:hidden">
-          {[...links, { href: "#prenota", label: "Prenota" }].map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="text-sm font-medium uppercase tracking-[0.2em] text-white/85"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
+        <ul className="flex flex-col gap-4 border-t border-line bg-bg/95 px-6 py-6 backdrop-blur-md md:hidden">
+          {[...links, { href: "#contatti", label: "Lavoriamo insieme" }].map(
+            (l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-medium uppercase tracking-[0.2em] text-fg-dim"
+                >
+                  {l.label}
+                </a>
+              </li>
+            )
+          )}
         </ul>
       )}
     </header>

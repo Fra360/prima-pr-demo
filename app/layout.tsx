@@ -1,39 +1,43 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
+import { site } from "@/lib/site";
 
-const cormorant = Cormorant_Garamond({
+const display = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
   display: "swap",
 });
 
-const jost = Jost({
+const body = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-jost",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#101c26",
+  themeColor: "#0a0a0b",
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  title: "Casa Omero · Sperlonga — Luxury Holiday Home",
-  description:
-    "Casa Omero, elegante casa vacanze nel cuore di Sperlonga. Terrazza vista mare, a pochi passi dalla spiaggia e dal borgo antico. Valutazione 9.7 su Booking.",
+  title: `${site.name} — ${site.role}`,
+  description: site.tagline,
+  openGraph: {
+    title: `${site.name} — ${site.role}`,
+    description: site.tagline,
+    type: "website",
+  },
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${cormorant.variable} ${jost.variable}`}>
+    <html lang="it" className={`${display.variable} ${body.variable}`}>
       <body>{children}</body>
     </html>
   );
