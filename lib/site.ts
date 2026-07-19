@@ -9,7 +9,7 @@
 export const site = {
   // ── Identità ──────────────────────────────────────────────
   /** Nome e cognome mostrati grandi nell'hero. */
-  name: "Nome Cognome",
+  name: "Francesco Moscarella",
   /** Ruolo mostrato sotto al nome. */
   role: "3D Generalist",
   /** Iniziali usate per il logo/monogramma (lasciale vuote "" per calcolarle dal nome). */
