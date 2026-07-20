@@ -28,7 +28,7 @@ export const site = {
   artstation: "https://fraart_3d.artstation.com/",
   /** Aggiungi/rimuovi liberamente. Metti "" per nascondere una voce. */
   socials: {
-    instagram: "",
+    instagram: "https://www.instagram.com/fraart_3d/",
     linkedin: "",
     youtube: "",
   },
@@ -41,6 +41,7 @@ export const site = {
     "Maya",
     "Photoshop",
     "Unreal Engine",
+    "Unity",
   ],
 
   // ── Modello 3D dello showcase ─────────────────────────────
