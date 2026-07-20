@@ -37,6 +37,45 @@ body {
   color: #0a0a0b;
 }
 
+/* Focus da tastiera visibile e coerente (non appare col mouse) */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* Utility "solo per screen reader" + skip link che compare al focus */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  margin: 0.75rem;
+  transform: translateY(-160%);
+  background-color: var(--color-accent);
+  color: #0a0a0b;
+  padding: 0.75rem 1.25rem;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .font-display {
   font-family: var(--font-display);
 }

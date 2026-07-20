@@ -28,8 +28,8 @@ export default function Work() {
             Lavori & progetti
           </h2>
           <p className="mt-4 max-w-xl text-base font-light leading-relaxed text-muted">
-            Una selezione di render. Passa il mouse su una card per i dettagli —
-            presto qui ci saranno i tuoi lavori reali.
+            Una selezione dei miei render, per categoria. Presto trovi qui i
+            lavori veri — questi sono segnaposto che mostrano la struttura.
           </p>
         </Reveal>
 

@@ -38,7 +38,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="it" className={`${display.variable} ${body.variable}`}>
-      <body>{children}</body>
+      <body>
+        <a href="#lavori" className="skip-link">
+          Vai al contenuto
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

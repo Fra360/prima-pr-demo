@@ -184,31 +184,46 @@ function Stage({
     return progress.on("change", apply);
   }, [progress, a, b, isName]);
 
+  const titleClass = `font-display font-semibold leading-[0.95] tracking-tight text-fg ${
+    isName
+      ? "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+      : "text-4xl sm:text-5xl md:text-6xl"
+  }`;
+
   return (
     <div
       ref={ref}
       className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
     >
-      <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.5em] text-accent">
+      {/* Scrim morbido: scurisce il centro così il testo resta leggibile
+          sopra il wireframe, senza nasconderlo del tutto. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[130%] w-[130%] max-w-[52rem] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(10,10,11,0.72) 0%, rgba(10,10,11,0.42) 42%, transparent 70%)",
+          filter: "blur(6px)",
+        }}
+      />
+      <p className="relative mb-6 text-[11px] font-medium uppercase tracking-[0.5em] text-accent">
         {stage.eyebrow}
       </p>
-      <h1
-        className={`font-display font-semibold leading-[0.95] tracking-tight text-fg ${
-          isName
-            ? "text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
-            : "text-4xl sm:text-5xl md:text-6xl"
-        }`}
-      >
-        {stage.title}
-      </h1>
-      <div className="my-7 h-px w-16 bg-accent/70" />
-      <p className="max-w-xl text-base font-light leading-relaxed text-fg-dim md:text-lg">
+      {isName ? (
+        <h1 className={`relative ${titleClass}`}>{stage.title}</h1>
+      ) : (
+        <p className={`relative ${titleClass}`} aria-hidden="true">
+          {stage.title}
+        </p>
+      )}
+      <div className="relative my-7 h-px w-16 bg-accent/70" />
+      <p className="relative max-w-xl text-base font-light leading-relaxed text-fg-dim md:text-lg">
         {stage.sub}
       </p>
       {isName && (
         <a
           href="#lavori"
-          className="mt-11 border border-fg/25 px-9 py-3.5 text-xs font-medium uppercase tracking-[0.3em] text-fg transition-all duration-300 hover:border-accent hover:bg-accent hover:text-bg"
+          className="relative mt-11 border border-fg/25 px-9 py-3.5 text-xs font-medium uppercase tracking-[0.3em] text-fg transition-all duration-300 hover:border-accent hover:bg-accent hover:text-bg"
         >
           Vedi i lavori
         </a>
@@ -328,7 +343,11 @@ export default function Hero() {
           }`}
         />
         {!hasVideo && (
-          <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+          <canvas
+            ref={canvasRef}
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full"
+          />
         )}
 
         {/* Vignettatura per far risaltare il testo */}

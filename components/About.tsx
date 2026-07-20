@@ -9,7 +9,7 @@ export default function About() {
         {/* Ritratto / segnaposto */}
         <Reveal>
           <div className="relative aspect-[4/5] overflow-hidden border border-line">
-            <Placeholder tone="copper" label="La tua foto" />
+            <Placeholder tone="copper" label="Ritratto" />
           </div>
         </Reveal>
 
