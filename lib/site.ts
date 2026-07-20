@@ -18,7 +18,7 @@ export const site = {
   tagline:
     "Modellazione, texturing e lookdev — dall'idea al render finale.",
   /** Foto per la sezione 'Chi sono'. Vuoto ("") ⇒ segnaposto. */
-  portrait: "",
+  portrait: "/photos/francesco-portrait.jpg",
   /** Bio più estesa per la sezione 'Chi sono'. */
   bio: [
     "Sono un 3D generalist: mi occupo dell'intera pipeline, dalla modellazione al texturing, dal lighting al rendering finale.",
