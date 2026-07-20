@@ -24,7 +24,7 @@ export const site = {
   ],
 
   // ── Contatti & social ─────────────────────────────────────
-  email: "fra111kikko@gmail.com",
+  email: "fra3dart@gmail.com",
   artstation: "https://fraart_3d.artstation.com/",
   /** Aggiungi/rimuovi liberamente. Metti "" per nascondere una voce. */
   socials: {
@@ -38,11 +38,9 @@ export const site = {
     "Blender",
     "ZBrush",
     "Substance Painter",
-    "Marmoset Toolbag",
     "Maya",
     "Photoshop",
     "Unreal Engine",
-    "Houdini",
   ],
 
   // ── Modello 3D dello showcase ─────────────────────────────
