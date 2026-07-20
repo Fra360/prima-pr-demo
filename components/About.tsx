@@ -9,7 +9,16 @@ export default function About() {
         {/* Ritratto / segnaposto */}
         <Reveal>
           <div className="relative aspect-[4/5] overflow-hidden border border-line">
-            <Placeholder tone="copper" label="Ritratto" />
+            {site.portrait ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={site.portrait}
+                alt={site.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <Placeholder tone="copper" label="Ritratto" />
+            )}
           </div>
         </Reveal>
 
