@@ -242,14 +242,21 @@ export default function Hero() {
 
     const onLoaded = () => setHasVideo(true);
     const onError = () => setHasVideo(false);
+    // Qualsiasi segnale di "video pronto" attiva la modalità video
     video.addEventListener("loadeddata", onLoaded);
+    video.addEventListener("loadedmetadata", onLoaded);
+    video.addEventListener("canplay", onLoaded);
     video.addEventListener("error", onError);
+    // Se il video è già pronto quando l'effetto parte (race), attiva subito
+    if (video.readyState >= 2 || video.videoWidth > 0) setHasVideo(true);
 
     let raf = 0;
     let current = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
       if (!video.duration || video.readyState < 2) return;
+      // Appena il video è scrubbabile, assicura che sia visibile
+      setHasVideo(true);
       const target = scrollYProgress.get() * (video.duration - 0.05);
       current += (target - current) * 0.12;
       if (Math.abs(video.currentTime - current) > 0.02) {
@@ -261,6 +268,8 @@ export default function Hero() {
     return () => {
       cancelAnimationFrame(raf);
       video.removeEventListener("loadeddata", onLoaded);
+      video.removeEventListener("loadedmetadata", onLoaded);
+      video.removeEventListener("canplay", onLoaded);
       video.removeEventListener("error", onError);
     };
   }, [scrollYProgress]);
