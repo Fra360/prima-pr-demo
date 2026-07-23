@@ -235,6 +235,29 @@ export default function Hero() {
     if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
   });
 
+  // Sblocco iOS: su iPhone il seeking (currentTime) non aggiorna i frame
+  // finché il video non è stato "riprodotto" almeno una volta. Un muted
+  // inline video può fare play/pause senza gesto, ma per sicurezza ritentiamo
+  // anche al primo tocco. Senza questo, su iOS lo scrubbing resta congelato.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true; // React a volte non imposta la proprietà muted
+    const unlock = () => {
+      const p = video.play();
+      if (p && typeof p.then === "function") {
+        p.then(() => video.pause()).catch(() => {});
+      }
+    };
+    unlock();
+    window.addEventListener("touchstart", unlock, { passive: true });
+    window.addEventListener("pointerdown", unlock);
+    return () => {
+      window.removeEventListener("touchstart", unlock);
+      window.removeEventListener("pointerdown", unlock);
+    };
+  }, []);
+
   // Scrub del video con lo scroll (con smoothing)
   useEffect(() => {
     const video = videoRef.current;
@@ -310,14 +333,16 @@ export default function Hero() {
     <section ref={ref} id="top" className="relative h-[300svh]">
       <div className="sticky top-0 h-svh min-h-[540px] overflow-hidden">
         {/* Livello media: video AI (quando presente) o canvas procedurale */}
+        {/* Il video resta sempre nel DOM (mai display:none): iOS non carica
+            i video nascosti, quindi usiamo l'opacità per il fallback. */}
         <video
           ref={videoRef}
           src={VIDEO_SRC}
           muted
           playsInline
           preload="auto"
-          className={`absolute inset-0 h-full w-full object-cover ${
-            hasVideo ? "" : "hidden"
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+            hasVideo ? "opacity-100" : "opacity-0"
           }`}
         />
         {!hasVideo && (
