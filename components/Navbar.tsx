@@ -57,7 +57,7 @@ export default function Navbar() {
           <li>
             <a
               href="#prenota"
-              className="border border-gold px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-gold-light transition-all hover:bg-gold hover:text-white"
+              className="rounded-full border border-gold px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-gold-light transition-all hover:bg-gold hover:text-white"
             >
               Prenota
             </a>

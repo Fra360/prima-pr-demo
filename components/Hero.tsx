@@ -200,7 +200,7 @@ function Stage({
       {isFirst && (
         <a
           href="#prenota"
-          className="mt-12 border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] transition-all duration-300 hover:border-gold hover:bg-gold"
+          className="mt-12 rounded-full border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] transition-all duration-300 hover:border-gold hover:bg-gold"
         >
           Verifica disponibilità
         </a>

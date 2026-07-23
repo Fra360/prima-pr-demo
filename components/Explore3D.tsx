@@ -1,30 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
 
 /**
- * Sezione "Esplora la casa": modello 3D navigabile (GLB) con AR,
- * planimetria e virtual tour Unity WebGL — sul modello di
- * youstartxr.com/apeiron.
+ * Sezione "Esplora la casa": modello 3D navigabile (GLB) + virtual tour
+ * Unity WebGL.
  *
- * - Modello 3D: sostituisci public/models/casa.glb con il tuo export
- *   (le texture incorporate nel GLB vengono mostrate automaticamente).
- *   Per l'AR su iPhone aggiungi anche un export .usdz e imposta IOS_SRC.
- * - Virtual tour: copia la build Unity WebGL in public/tour/
- *   (index.html incluso) e il tab la caricherà al click.
+ * - Modello 3D: di default legge public/models/casa.glb. Per servirlo da
+ *   Cloudflare R2 (file grande, non compresso) basta impostare la variabile
+ *   d'ambiente NEXT_PUBLIC_MODEL_URL con l'URL pubblico del bucket — nessuna
+ *   modifica al codice. Il bucket R2 deve permettere il GET via CORS dal
+ *   dominio del sito.
+ * - Virtual tour: copia la build Unity WebGL in public/tour/ (index.html
+ *   incluso) e il tab la caricherà al click.
  */
 
-const MODEL_SRC = "/models/casa.glb";
-const IOS_SRC = undefined; // es. "/models/casa.usdz" per Quick Look su iPhone
+const MODEL_SRC = process.env.NEXT_PUBLIC_MODEL_URL || "/models/casa.glb";
 const TOUR_URL = "/tour/index.html";
 
-type Tab = "modello" | "planimetria" | "tour";
+type Tab = "modello" | "tour";
 
 const tabs: { id: Tab; label: string }[] = [
   { id: "modello", label: "Modello 3D" },
-  { id: "planimetria", label: "Planimetria" },
   { id: "tour", label: "Virtual Tour" },
 ];
 
@@ -37,6 +36,8 @@ function ModelTab() {
   // modello che intrappola la pagina).
   const [interactive, setInteractive] = useState(false);
   const [coarse, setCoarse] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const mvRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     // Il web component va registrato solo nel browser
@@ -44,12 +45,26 @@ function ModelTab() {
     setCoarse(window.matchMedia("(pointer: coarse)").matches);
   }, []);
 
+  // Barra di avanzamento del download (utile per il modello grande su R2)
+  useEffect(() => {
+    const mv = mvRef.current;
+    if (!mv) return;
+    const onProgress = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { totalProgress: number };
+      setProgress(detail.totalProgress);
+    };
+    mv.addEventListener("progress", onProgress);
+    return () => mv.removeEventListener("progress", onProgress);
+  }, [ready]);
+
+  const loading = ready && progress < 1;
+
   return (
     <div className="relative h-[60svh] min-h-[420px] w-full bg-sea-deep">
-      {ready ? (
+      {ready && (
         <model-viewer
+          ref={mvRef as React.RefObject<HTMLElement>}
           src={MODEL_SRC}
-          ios-src={IOS_SRC}
           alt="Modello 3D di Casa Omero"
           camera-controls
           auto-rotate
@@ -63,45 +78,40 @@ function ModelTab() {
           camera-orbit="20deg 35deg 105%"
           touch-action="none"
           interaction-prompt="none"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
           style={{
             width: "100%",
             height: "100%",
             background:
               "radial-gradient(ellipse at 50% 35%, #2e5d6b 0%, #16323c 60%, #101c26 100%)",
           }}
-        >
-          {/* Il pulsante AR compare solo dopo che si è entrati nella modalità
-              3D, così non si sovrappone alla pillola "Tocca per esplorare".
-              Su desktop lo scudo non c'è: mostriamo l'AR da subito (model-viewer
-              lo nasconde comunque da solo dove l'AR non è disponibile). */}
-          {(interactive || !coarse) && (
-            <button
-              slot="ar-button"
-              className="absolute bottom-5 right-5 flex items-center gap-2 border border-gold bg-ivory/90 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-ink backdrop-blur transition-colors hover:bg-gold hover:text-white"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 3l7 4v10l-7 4-7-4V7l7-4zM12 12l7-4M12 12v9M12 12L5 8" />
-              </svg>
-              Guarda in AR
-            </button>
-          )}
-        </model-viewer>
-      ) : (
-        <></>
+        />
       )}
 
-      {ready && !interactive && (
-        // Scudo touch: visibile solo su touchscreen. Un dito sopra di esso
-        // scorre la pagina come al solito; il tap lo rimuove e attiva la
-        // rotazione del modello.
+      {/* Barra di caricamento */}
+      {loading && (
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-4 text-white/80">
+          <span className="text-[11px] font-medium uppercase tracking-[0.3em]">
+            Caricamento modello… {Math.round(progress * 100)}%
+          </span>
+          <div className="h-[3px] w-40 overflow-hidden rounded-full bg-white/15">
+            <div
+              className="h-full rounded-full bg-gold transition-[width] duration-200"
+              style={{ width: `${Math.max(progress * 100, 4)}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Scudo touch: visibile solo su touchscreen. Un dito sopra di esso
+          scorre la pagina come al solito; il tap lo rimuove e attiva la
+          rotazione del modello. */}
+      {ready && !interactive && !loading && (
         <button
           onClick={() => setInteractive(true)}
           aria-label="Attiva la rotazione del modello 3D"
           className="absolute inset-0 hidden w-full touch-auto items-end justify-center bg-transparent pb-6 pointer-coarse:flex"
         >
-          <span className="pointer-events-none flex items-center gap-2 border border-gold/60 bg-ink/70 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur">
+          <span className="pointer-events-none flex items-center gap-2 rounded-full border border-gold/60 bg-ink/70 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M8 13V5.5a1.5 1.5 0 013 0V12m0-2.5a1.5 1.5 0 013 0V12m0-1a1.5 1.5 0 013 0v1m0 0a1.5 1.5 0 013 0v3a7 7 0 01-7 7h-1.5a7 7 0 01-5.6-2.8L4.5 15a1.7 1.7 0 012.7-2L8 14" />
             </svg>
@@ -113,7 +123,7 @@ function ModelTab() {
       {ready && interactive && (
         <button
           onClick={() => setInteractive(false)}
-          className="absolute right-4 top-4 hidden items-center gap-2 border border-white/40 bg-ink/70 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur transition-colors hover:border-gold pointer-coarse:flex"
+          className="absolute right-4 top-4 hidden items-center gap-2 rounded-full border border-white/40 bg-ink/70 px-4 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur transition-colors hover:border-gold pointer-coarse:flex"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
             <path d="M6 6l12 12M18 6L6 18" />
@@ -128,31 +138,6 @@ function ModelTab() {
             Caricamento modello…
           </span>
         </div>
-      )}
-    </div>
-  );
-}
-
-function PlanTab() {
-  const [hasImage, setHasImage] = useState(true);
-
-  return (
-    <div className="relative h-[60svh] min-h-[420px] w-full">
-      {hasImage ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src="/plans/planimetria.jpg"
-          alt="Planimetria di Casa Omero"
-          onError={() => setHasImage(false)}
-          className="h-full w-full bg-ivory-dark object-contain"
-        />
-      ) : (
-        <>
-          <Placeholder variant="stone" label="Planimetria della casa" />
-          <p className="absolute bottom-5 left-1/2 w-max max-w-[90%] -translate-x-1/2 bg-ink/70 px-4 py-2 text-center text-[11px] font-light tracking-wide text-white/85 backdrop-blur">
-            Carica la planimetria in <code>public/plans/planimetria.jpg</code>
-          </p>
-        </>
       )}
     </div>
   );
@@ -202,7 +187,7 @@ function TourTab() {
             <button
               onClick={start}
               disabled={state === "loading"}
-              className="border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-white transition-all duration-300 hover:border-gold hover:bg-gold disabled:opacity-50"
+              className="rounded-full border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-white transition-all duration-300 hover:border-gold hover:bg-gold disabled:opacity-50"
             >
               {state === "loading" ? "Verifica…" : "Entra nel tour"}
             </button>
@@ -228,9 +213,8 @@ export default function Explore3D() {
               Esplora la casa <em className="text-sea">prima di arrivare</em>
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed text-ink-soft/70">
-              Ruota il modello 3D, guardalo in realtà aumentata nel tuo
-              salotto, studia la planimetria o entra nel virtual tour e
-              cammina tra le stanze.
+              Ruota il modello 3D per vedere ogni stanza, oppure entra nel
+              virtual tour e cammina tra gli ambienti.
             </p>
           </div>
         </Reveal>
@@ -238,15 +222,15 @@ export default function Explore3D() {
         <Reveal delay={0.1}>
           {/* Tabs */}
           <div className="flex justify-center">
-            <div className="flex w-full flex-col gap-px border border-ink/10 bg-ink/10 p-px sm:w-auto sm:flex-row">
+            <div className="flex w-full flex-col gap-1 rounded-full border border-ink/10 bg-ink/5 p-1 sm:w-auto sm:flex-row">
               {tabs.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setTab(t.id)}
-                  className={`px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors sm:px-8 ${
+                  className={`rounded-full px-8 py-3 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors sm:px-10 ${
                     tab === t.id
                       ? "bg-ink text-white"
-                      : "bg-ivory text-ink-soft/70 hover:bg-ivory-dark"
+                      : "text-ink-soft/70 hover:bg-ivory-dark"
                   }`}
                 >
                   {t.label}
@@ -255,16 +239,14 @@ export default function Explore3D() {
             </div>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-sm border border-ink/10 shadow-2xl shadow-sea-deep/10">
+          <div className="mt-8 overflow-hidden rounded-3xl border border-ink/10 shadow-2xl shadow-sea-deep/10">
             {tab === "modello" && <ModelTab />}
-            {tab === "planimetria" && <PlanTab />}
             {tab === "tour" && <TourTab />}
           </div>
 
           <p className="mt-6 text-center text-xs font-light italic text-ink-soft/50">
             Il modello reale della casa — trascina per ruotarlo, pizzica per
-            lo zoom. L&apos;AR funziona dal telefono sul sito pubblicato
-            (serve HTTPS).
+            lo zoom.
           </p>
         </Reveal>
       </div>

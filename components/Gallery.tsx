@@ -31,7 +31,7 @@ export default function Gallery() {
             <Reveal
               key={p.label}
               delay={i * 0.06}
-              className={`group relative overflow-hidden rounded-sm ${p.span}`}
+              className={`group relative overflow-hidden rounded-[1.75rem] ${p.span}`}
             >
               <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-105">
                 <Placeholder variant={p.variant} label={p.label} />
