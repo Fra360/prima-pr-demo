@@ -74,7 +74,7 @@ export default function Amenities() {
           </div>
         </Reveal>
 
-        <div className="grid gap-px overflow-hidden rounded-sm border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden rounded-[1.75rem] border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
           {amenities.map((a, i) => (
             <Reveal
               key={a.title}

@@ -15,10 +15,10 @@ export default function Location() {
         <div className="grid items-center gap-16 lg:grid-cols-2">
           <Reveal className="order-2 lg:order-1">
             <div className="grid grid-cols-2 gap-4">
-              <div className="aspect-[3/4] overflow-hidden rounded-sm">
+              <div className="aspect-[3/4] overflow-hidden rounded-[1.75rem]">
                 <Placeholder variant="stone" label="Il borgo bianco" />
               </div>
-              <div className="mt-10 aspect-[3/4] overflow-hidden rounded-sm">
+              <div className="mt-10 aspect-[3/4] overflow-hidden rounded-[1.75rem]">
                 <Placeholder variant="sea" label="La spiaggia" />
               </div>
             </div>

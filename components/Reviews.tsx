@@ -35,7 +35,7 @@ export default function Reviews() {
             <h2 className="font-display text-4xl font-light text-white md:text-5xl">
               Gli ospiti <em className="text-gold-light">raccontano</em>
             </h2>
-            <div className="mt-8 inline-flex items-center gap-3 border border-gold/40 px-6 py-3">
+            <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-gold/40 px-6 py-3">
               <span className="font-display text-3xl text-gold-light">9.7</span>
               <span className="text-left text-[10px] font-medium uppercase leading-tight tracking-[0.2em] text-white/70">
                 Eccezionale
@@ -49,7 +49,7 @@ export default function Reviews() {
         <div className="grid gap-8 md:grid-cols-3">
           {reviews.map((r, i) => (
             <Reveal key={r.author} delay={i * 0.12}>
-              <figure className="flex h-full flex-col border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+              <figure className="flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
                 <span className="font-display text-6xl leading-none text-gold/60">
                   &ldquo;
                 </span>

@@ -27,13 +27,13 @@ export default function BookingCTA() {
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-ink px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-white transition-colors duration-300 hover:bg-gold sm:w-auto"
+              className="w-full rounded-full bg-ink px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-white transition-colors duration-300 hover:bg-gold sm:w-auto"
             >
               Prenota su Booking.com
             </a>
             <a
               href="mailto:info@casaomerosperlonga.it"
-              className="w-full border border-ink/20 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-all duration-300 hover:border-gold hover:text-gold sm:w-auto"
+              className="w-full rounded-full border border-ink/20 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-ink transition-all duration-300 hover:border-gold hover:text-gold sm:w-auto"
             >
               Contattaci
             </a>
