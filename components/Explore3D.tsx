@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
 
 /**
@@ -168,31 +167,37 @@ function TourTab() {
           allow="fullscreen; xr-spatial-tracking; accelerometer; gyroscope"
         />
       ) : (
-        <>
-          <Placeholder variant="night" label="Virtual tour immersivo" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 bg-ink/40 px-6 text-center">
-            {state === "missing" ? (
-              <p className="max-w-md text-sm font-light leading-relaxed text-white/85">
-                La build Unity non è ancora online: esporta il progetto in
-                WebGL e copia la cartella della build in{" "}
-                <code className="text-gold-light">public/tour/</code>. Questo
-                pulsante la avvierà automaticamente.
-              </p>
-            ) : (
-              <p className="max-w-md font-display text-lg italic text-white/85">
-                Cammina dentro Casa Omero: muoviti stanza per stanza come in
-                un videogioco.
-              </p>
-            )}
-            <button
-              onClick={start}
-              disabled={state === "loading"}
-              className="rounded-full border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-white transition-all duration-300 hover:border-gold hover:bg-gold disabled:opacity-50"
-            >
-              {state === "loading" ? "Verifica…" : "Entra nel tour"}
-            </button>
-          </div>
-        </>
+        <div
+          className="flex h-full w-full flex-col items-center justify-center gap-7 px-6 text-center"
+          style={{
+            background:
+              "linear-gradient(160deg, #3a5060 0%, #22333f 55%, #101c26 100%)",
+          }}
+        >
+          <p className="text-[11px] font-medium uppercase tracking-[0.35em] text-gold-light">
+            Virtual tour immersivo
+          </p>
+          {state === "missing" ? (
+            <p className="max-w-md text-sm font-light leading-relaxed text-white/80">
+              La build Unity non è ancora online: esporta il progetto in
+              WebGL e copia la cartella della build in{" "}
+              <code className="text-gold-light">public/tour/</code>. Questo
+              pulsante la avvierà automaticamente.
+            </p>
+          ) : (
+            <p className="max-w-md font-display text-xl italic leading-relaxed text-white/85">
+              Cammina dentro Casa Omero: muoviti stanza per stanza come in un
+              videogioco.
+            </p>
+          )}
+          <button
+            onClick={start}
+            disabled={state === "loading"}
+            className="rounded-full border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] text-white transition-all duration-300 hover:border-gold hover:bg-gold disabled:opacity-50"
+          >
+            {state === "loading" ? "Verifica…" : "Entra nel tour"}
+          </button>
+        </div>
       )}
     </div>
   );
