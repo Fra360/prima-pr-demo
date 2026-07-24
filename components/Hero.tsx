@@ -21,6 +21,14 @@ import {
  */
 
 const VIDEO_SRC = "/videos/hero.mp4";
+const VIDEO_SRC_MOBILE = "/videos/hero-mobile.mp4";
+
+/**
+ * Punto dello scroll (0-1) in cui il video raggiunge l'ultimo frame.
+ * Il tratto restante scorre tenendo la scena finale ferma: alzalo per
+ * accorciare la pausa, abbassalo per allungarla.
+ */
+const VIDEO_END_AT = 0.8;
 
 function drawSeascape(
   ctx: CanvasRenderingContext2D,
@@ -181,30 +189,32 @@ function Stage({
       ref={ref}
       className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white"
     >
-      <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.45em] text-gold-light">
-        {stage.eyebrow}
-      </p>
-      <h2
-        className={`font-display font-light leading-none tracking-wide ${
-          isFirst
-            ? "text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
-            : "text-5xl sm:text-6xl md:text-7xl"
-        }`}
-      >
-        {stage.title}
-      </h2>
-      <div className="my-8 h-px w-24 bg-gold" />
-      <p className="max-w-xl font-display text-xl italic text-white/85 md:text-2xl">
-        {stage.sub}
-      </p>
-      {isFirst && (
-        <a
-          href="#prenota"
-          className="mt-12 rounded-full border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] transition-all duration-300 hover:border-gold hover:bg-gold"
+      <div className="hero-type relative flex flex-col items-center">
+        <p className="hero-eyebrow mb-6 text-[11px] font-medium uppercase tracking-[0.45em]">
+          {stage.eyebrow}
+        </p>
+        <h2
+          className={`font-display font-light leading-none tracking-wide ${
+            isFirst
+              ? "text-6xl sm:text-7xl md:text-8xl lg:text-9xl"
+              : "text-5xl sm:text-6xl md:text-7xl"
+          }`}
         >
-          Verifica disponibilità
-        </a>
-      )}
+          {stage.title}
+        </h2>
+        <div className="my-8 h-px w-24 bg-gold" />
+        <p className="max-w-xl font-display text-xl italic text-white/95 md:text-2xl">
+          {stage.sub}
+        </p>
+        {isFirst && (
+          <a
+            href="#prenota"
+            className="mt-12 rounded-full border border-white/60 px-10 py-4 text-xs font-medium uppercase tracking-[0.3em] transition-all duration-300 hover:border-gold hover:bg-gold"
+          >
+            Verifica disponibilità
+          </a>
+        )}
+      </div>
     </div>
   );
 }
@@ -228,12 +238,25 @@ export default function Hero() {
   // Velo, indicatore di scroll e barra di avanzamento aggiornati a mano
   // (stesso motivo delle fasi di testo: niente ScrollTimeline native)
   useMotionValueEvent(scrollYProgress, "change", (p) => {
+    // Velatura uniforme su tutto il fotogramma: coprendo l'intero schermo non
+    // ha bordi visibili, a differenza di qualsiasi forma centrata sul testo
     if (veilRef.current)
-      veilRef.current.style.opacity = String(0.25 + 0.25 * p);
+      veilRef.current.style.opacity = String(0.22 + 0.26 * p);
     if (cueRef.current)
       cueRef.current.style.opacity = String(interp(p, [0, 0.12], [1, 0]));
     if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
   });
+
+  // Sorgente scelta in base al viewport: su telefono una versione 720p molto
+  // più leggera. La scelta avviene dopo il mount (niente `src` nel JSX) così
+  // il browser scarica un solo file e l'HTML del server resta identico.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    video.src = mobile ? VIDEO_SRC_MOBILE : VIDEO_SRC;
+    video.load();
+  }, []);
 
   // Sblocco iOS: su iPhone il seeking (currentTime) non aggiorna i frame
   // finché il video non è stato "riprodotto" almeno una volta. Un muted
@@ -280,7 +303,11 @@ export default function Hero() {
       if (!video.duration || video.readyState < 2) return;
       // Appena il video è scrubbabile, assicura che sia visibile
       setHasVideo(true);
-      const target = scrollYProgress.get() * (video.duration - 0.05);
+      // Il video completa la sua animazione prima della fine dello scroll:
+      // l'ultimo tratto tiene fermo il frame finale, così la scena finita
+      // si vede ferma un istante prima che l'hero si stacchi.
+      const p = Math.min(scrollYProgress.get() / VIDEO_END_AT, 1);
+      const target = p * (video.duration - 0.05);
       current += (target - current) * 0.12;
       if (Math.abs(video.currentTime - current) > 0.02) {
         video.currentTime = current;
@@ -337,7 +364,6 @@ export default function Hero() {
             i video nascosti, quindi usiamo l'opacità per il fallback. */}
         <video
           ref={videoRef}
-          src={VIDEO_SRC}
           muted
           playsInline
           preload="auto"
