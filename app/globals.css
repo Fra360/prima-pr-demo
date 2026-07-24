@@ -34,80 +34,32 @@ body {
 }
 
 /**
- * Alone di vetro dietro il testo dell'hero.
+ * Leggibilita del testo dell'hero.
  *
- * Il video passa da cielo blu a muri bianchi: il testo bianco perde leggibilita
- * proprio sulle facciate. Invece di un pannello rettangolare (che sopra un hero
- * cinematografico si legge come un elemento di interfaccia appoggiato sopra il
- * video) il vetro non ha bordi: una maschera radiale fa svanire sia la sfocatura
- * sia la velatura verso l'esterno, cosi sembra luce diffusa dietro le lettere.
+ * Il video passa da cielo blu a facciate bianche: il testo bianco si perde
+ * proprio sui muri chiari. Niente pannelli ne sfocature dietro le lettere:
+ * qualsiasi forma appoggiata sopra il video mostra il proprio bordo. Il
+ * contrasto lo portano tre ombre sovrapposte, che seguono i profili delle
+ * lettere e quindi non hanno margini visibili:
+ *   1. contatto, stacca il bordo della lettera dal fondo
+ *   2. media, ricostruisce il peso ottico dell'asta sottile del Cormorant
+ *   3. larga e tenue, scurisce l'area attorno al testo senza disegnare forme
  */
-.glass-halo {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  width: min(92vw, 1080px);
-  height: min(72vh, 640px);
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    rgb(16 28 38 / 0.5) 0%,
-    rgb(16 28 38 / 0.38) 40%,
-    rgb(16 28 38 / 0.14) 68%,
-    rgb(16 28 38 / 0) 100%
-  );
-  -webkit-backdrop-filter: blur(20px) saturate(112%);
-  backdrop-filter: blur(20px) saturate(112%);
-  -webkit-mask-image: radial-gradient(
-    ellipse at center,
-    #000 0%,
-    #000 40%,
-    rgb(0 0 0 / 0.5) 68%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse at center,
-    #000 0%,
-    #000 40%,
-    rgb(0 0 0 / 0.5) 68%,
-    transparent 100%
-  );
-}
-
-/* Su telefono la sfocatura va ricalcolata a ogni frame del video mentre si
-   scrolla: costa troppo sulle GPU mobili. La sostituiamo con una velatura piu
-   decisa, che a schermo piccolo (video ritagliato in verticale) serve comunque. */
-@media (max-width: 767px) {
-  .glass-halo {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    background: radial-gradient(
-      ellipse at center,
-      rgb(16 28 38 / 0.62) 0%,
-      rgb(16 28 38 / 0.5) 40%,
-      rgb(16 28 38 / 0.2) 68%,
-      rgb(16 28 38 / 0) 100%
-    );
-  }
-}
-
-/* Browser senza backdrop-filter: stessa leggibilita, solo senza vetro */
-@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .glass-halo {
-    background: radial-gradient(
-      ellipse at center,
-      rgb(16 28 38 / 0.62) 0%,
-      rgb(16 28 38 / 0.5) 40%,
-      rgb(16 28 38 / 0.2) 68%,
-      rgb(16 28 38 / 0) 100%
-    );
-  }
-}
-
-/* Il titolo resta leggibile anche sul bordo dell'alone, dove il vetro sfuma */
 .hero-type {
-  text-shadow: 0 1px 2px rgb(16 28 38 / 0.28), 0 2px 26px rgb(16 28 38 / 0.42);
+  text-shadow: 0 1px 1px rgb(16 28 38 / 0.55), 0 -1px 1px rgb(16 28 38 / 0.32),
+    1px 0 1px rgb(16 28 38 / 0.32), -1px 0 1px rgb(16 28 38 / 0.32),
+    0 3px 14px rgb(16 28 38 / 0.6), 0 6px 46px rgb(16 28 38 / 0.72),
+    0 10px 90px rgb(16 28 38 / 0.7);
+}
+
+/* L'oro del brand sul muro bianco scende sotto la soglia di leggibilita: sul
+   cielo servirebbe piu chiaro, sull'intonaco piu scuro. Teniamo la variante
+   chiara e il contrasto lo porta l'anello d'ombra, che funziona su entrambi. */
+.hero-eyebrow {
+  color: #e8d3ae;
+  text-shadow: 0 1px 1px rgb(16 28 38 / 0.7), 0 -1px 1px rgb(16 28 38 / 0.45),
+    1px 0 1px rgb(16 28 38 / 0.45), -1px 0 1px rgb(16 28 38 / 0.45),
+    0 2px 18px rgb(16 28 38 / 0.75);
 }
 
 /* Thin elegant scrollbar */

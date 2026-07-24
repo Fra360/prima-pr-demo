@@ -189,9 +189,8 @@ function Stage({
       ref={ref}
       className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white"
     >
-      <div className="glass-halo" aria-hidden />
       <div className="hero-type relative flex flex-col items-center">
-        <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.45em] text-gold-light">
+        <p className="hero-eyebrow mb-6 text-[11px] font-medium uppercase tracking-[0.45em]">
           {stage.eyebrow}
         </p>
         <h2
@@ -204,7 +203,7 @@ function Stage({
           {stage.title}
         </h2>
         <div className="my-8 h-px w-24 bg-gold" />
-        <p className="max-w-xl font-display text-xl italic text-white/85 md:text-2xl">
+        <p className="max-w-xl font-display text-xl italic text-white/95 md:text-2xl">
           {stage.sub}
         </p>
         {isFirst && (
@@ -239,10 +238,10 @@ export default function Hero() {
   // Velo, indicatore di scroll e barra di avanzamento aggiornati a mano
   // (stesso motivo delle fasi di testo: niente ScrollTimeline native)
   useMotionValueEvent(scrollYProgress, "change", (p) => {
-    // Velatura generale piu leggera di prima: il contrasto sotto al testo lo
-    // porta l'alone di vetro, cosi il video resta luminoso invece di ingrigirsi
+    // Velatura uniforme su tutto il fotogramma: coprendo l'intero schermo non
+    // ha bordi visibili, a differenza di qualsiasi forma centrata sul testo
     if (veilRef.current)
-      veilRef.current.style.opacity = String(0.16 + 0.22 * p);
+      veilRef.current.style.opacity = String(0.22 + 0.26 * p);
     if (cueRef.current)
       cueRef.current.style.opacity = String(interp(p, [0, 0.12], [1, 0]));
     if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
