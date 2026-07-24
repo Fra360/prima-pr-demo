@@ -32,13 +32,34 @@ Poi apri [http://localhost:3000](http://localhost:3000).
 
 ### Video hero (scroll-scrubbing)
 
-Metti il tuo video AI in **`public/videos/hero.mp4`**: il componente `Hero` lo rileva da solo e lo scrubberà con lo scroll al posto dell'animazione canvas.
+Il componente `Hero` usa **due file** e sceglie da solo quale scaricare in base al viewport (`max-width: 768px`), così il telefono non si scarica il 1080p:
 
-> ⚠️ Per uno scrubbing fluido il video va codificato con keyframe frequenti, altrimenti i salti di `currentTime` scattano:
+| File | Risoluzione | Peso indicativo |
+| --- | --- | --- |
+| `public/videos/hero.mp4` | 1920×1080 | ~6,5 MB |
+| `public/videos/hero-mobile.mp4` | 1280×720 | ~3,5 MB |
+
+> ⚠️ **Il video va sempre ricodificato**, non basta esportarlo dall'editor:
+> - **H.264 obbligatorio** — un MP4 in H.265/HEVC non viene riprodotto da Chrome su desktop e Android;
+> - **keyframe fitti** (`-g 4`), altrimenti ogni salto di `currentTime` deve decodificare decine di frame e lo scrub scatta;
+> - **niente B-frame** (`-bf 0`): il riordino dei frame rende il seeking meno reattivo;
+> - **`+faststart`**, altrimenti il browser non mostra nulla finché non ha scaricato quasi tutto il file;
+> - **`-an`** per togliere l'audio, inutile per lo scrub e peso sprecato.
+>
 > ```bash
-> ffmpeg -i input.mp4 -g 1 -an -movflags +faststart -pix_fmt yuv420p public/videos/hero.mp4
+> # desktop
+> ffmpeg -i input.mp4 -an -sn -c:v libx264 -profile:v high -pix_fmt yuv420p \
+>   -g 4 -keyint_min 1 -sc_threshold 0 -bf 0 -crf 26 -preset slow \
+>   -movflags +faststart public/videos/hero.mp4
+>
+> # mobile
+> ffmpeg -i input.mp4 -an -sn -c:v libx264 -profile:v high -pix_fmt yuv420p \
+>   -vf scale=1280:720:flags=lanczos \
+>   -g 4 -keyint_min 1 -sc_threshold 0 -bf 0 -crf 27 -preset slow \
+>   -movflags +faststart public/videos/hero-mobile.mp4
 > ```
-> (`-g 1` = ogni frame è un keyframe; `-an` rimuove l'audio, inutile per lo scrub. Tieni il video sotto ~10-15 MB: durata 5-10 s a 1080p va benissimo.)
+>
+> Durata consigliata 5-8 s. **L'animazione deve arrivare in fondo al file**: la pausa finale sulla scena completa la gestisce il codice (`VIDEO_END_AT` in `components/Hero.tsx`), non serve una coda di frame fermi.
 
 ### Modello 3D + AR
 

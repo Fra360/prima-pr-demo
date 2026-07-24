@@ -21,6 +21,14 @@ import {
  */
 
 const VIDEO_SRC = "/videos/hero.mp4";
+const VIDEO_SRC_MOBILE = "/videos/hero-mobile.mp4";
+
+/**
+ * Punto dello scroll (0-1) in cui il video raggiunge l'ultimo frame.
+ * Il tratto restante scorre tenendo la scena finale ferma: alzalo per
+ * accorciare la pausa, abbassalo per allungarla.
+ */
+const VIDEO_END_AT = 0.88;
 
 function drawSeascape(
   ctx: CanvasRenderingContext2D,
@@ -235,6 +243,17 @@ export default function Hero() {
     if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
   });
 
+  // Sorgente scelta in base al viewport: su telefono una versione 720p molto
+  // più leggera. La scelta avviene dopo il mount (niente `src` nel JSX) così
+  // il browser scarica un solo file e l'HTML del server resta identico.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    video.src = mobile ? VIDEO_SRC_MOBILE : VIDEO_SRC;
+    video.load();
+  }, []);
+
   // Sblocco iOS: su iPhone il seeking (currentTime) non aggiorna i frame
   // finché il video non è stato "riprodotto" almeno una volta. Un muted
   // inline video può fare play/pause senza gesto, ma per sicurezza ritentiamo
@@ -280,7 +299,11 @@ export default function Hero() {
       if (!video.duration || video.readyState < 2) return;
       // Appena il video è scrubbabile, assicura che sia visibile
       setHasVideo(true);
-      const target = scrollYProgress.get() * (video.duration - 0.05);
+      // Il video completa la sua animazione prima della fine dello scroll:
+      // l'ultimo tratto tiene fermo il frame finale, così la scena finita
+      // si vede ferma un istante prima che l'hero si stacchi.
+      const p = Math.min(scrollYProgress.get() / VIDEO_END_AT, 1);
+      const target = p * (video.duration - 0.05);
       current += (target - current) * 0.12;
       if (Math.abs(video.currentTime - current) > 0.02) {
         video.currentTime = current;
@@ -337,7 +360,6 @@ export default function Hero() {
             i video nascosti, quindi usiamo l'opacità per il fallback. */}
         <video
           ref={videoRef}
-          src={VIDEO_SRC}
           muted
           playsInline
           preload="auto"
