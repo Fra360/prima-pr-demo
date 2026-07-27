@@ -56,8 +56,11 @@ function ModelTab() {
 
   const loading = ready && progress < 1;
 
+  // Nota sui raggi: il pannello usa rounded-md (20px), cioe il raggio della
+  // cornice in vetro (28px) meno il suo padding (8px). Con lo stesso raggio
+  // del vetro l'angolo interno "scappava" fuori dalla curva della cornice.
   return (
-    <div className="relative h-[60svh] min-h-[420px] w-full overflow-hidden rounded-lg bg-deep-ocean">
+    <div className="relative h-[60svh] min-h-[420px] w-full overflow-hidden rounded-md bg-deep-ocean">
       {ready && (
         <model-viewer
           ref={mvRef as React.RefObject<HTMLElement>}
@@ -155,7 +158,7 @@ function TourTab() {
   };
 
   return (
-    <div className="relative h-[60svh] min-h-[420px] w-full overflow-hidden rounded-lg">
+    <div className="relative h-[60svh] min-h-[420px] w-full overflow-hidden rounded-md">
       {state === "ready" ? (
         <iframe
           src={TOUR_URL}
@@ -212,18 +215,25 @@ export default function Explore3D() {
 
         <Reveal delay={0.1}>
           <div className="flex justify-center">
+            {/* I due tab restano affiancati anche sul telefono: impilati, la
+                pillola esterna assumeva un raggio pari a meta della propria
+                altezza e gli angoli del tab attivo sporgevano dalla cornice.
+                Affiancati i raggi combaciano (22px del bottone + 6px di
+                padding = 28px del contenitore). */}
             <div
-              className="glass glass--dark flex w-full flex-col gap-1 rounded-full p-1.5 sm:w-auto sm:flex-row"
+              className="glass glass--dark flex w-full gap-1 rounded-full p-1.5 sm:w-auto"
               role="tablist"
               aria-label="Modalità di esplorazione"
             >
               {tabs.map((t) => (
                 <button
                   key={t.id}
+                  id={`tab-${t.id}`}
                   role="tab"
                   aria-selected={tab === t.id}
+                  aria-controls={`panel-${t.id}`}
                   onClick={() => setTab(t.id)}
-                  className={`min-h-[44px] rounded-full px-8 text-[0.6rem] font-medium uppercase tracking-[0.2em] transition-colors sm:px-10 ${
+                  className={`min-h-[44px] flex-1 whitespace-nowrap rounded-full px-4 text-[0.6rem] font-medium uppercase tracking-[0.2em] transition-colors sm:flex-none sm:px-10 ${
                     tab === t.id
                       ? "bg-sandy-beige text-deep-ocean"
                       : "text-light-sky/80 hover:text-seafoam"
@@ -236,10 +246,33 @@ export default function Explore3D() {
           </div>
 
           {/* Il vetro fa da cornice: sfoca l'aurora dietro, il viewer sta
-              sopra e resta perfettamente nitido. */}
-          <div className="glass glass--dark mt-8 p-2 sm:p-3">
-            {tab === "modello" && <ModelTab />}
-            {tab === "tour" && <TourTab />}
+              sopra e resta perfettamente nitido.
+
+              Entrambi i pannelli restano montati e si nascondono con `hidden`
+              invece di essere montati/smontati. Con il rendering condizionale
+              ogni cambio tab distruggeva e ricostruiva il <model-viewer>
+              (misurato: 6 ricostruzioni in 6 cicli), e ogni ricostruzione
+              ricrea scena e texture sulla GPU. Alternando in fretta, la
+              memoria non veniva liberata abbastanza in fretta e Safari su
+              iPhone chiudeva la pagina. Cosi il viewer viene costruito una
+              volta sola e il passaggio tra i tab e anche immediato. */}
+          <div className="glass glass--dark mt-8 p-2">
+            <div
+              id="panel-modello"
+              role="tabpanel"
+              aria-labelledby="tab-modello"
+              hidden={tab !== "modello"}
+            >
+              <ModelTab />
+            </div>
+            <div
+              id="panel-tour"
+              role="tabpanel"
+              aria-labelledby="tab-tour"
+              hidden={tab !== "tour"}
+            >
+              <TourTab />
+            </div>
           </div>
 
           <p className="mt-6 text-center text-sm font-light italic text-light-sky/70">
