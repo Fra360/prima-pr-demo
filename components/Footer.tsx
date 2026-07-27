@@ -16,7 +16,7 @@ export default function Footer() {
           gratuito.
         </p>
         <div className="rule" />
-        <p className="text-[0.65rem] uppercase tracking-[0.2em] text-light-sky/60">
+        <p className="text-[0.65rem] uppercase tracking-[0.2em] text-light-sky/70">
           © {new Date().getFullYear()} Casa Omero — Tutti i diritti riservati
         </p>
       </div>

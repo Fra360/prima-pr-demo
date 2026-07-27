@@ -45,7 +45,7 @@ export default function Gallery() {
         </div>
 
         <Reveal className="mt-10 text-center">
-          <p className="text-sm font-light italic text-light-sky/55">
+          <p className="text-sm font-light italic text-light-sky/70">
             Le foto professionali della casa arriveranno presto — questi sono
             segnaposto.
           </p>

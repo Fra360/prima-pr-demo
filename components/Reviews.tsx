@@ -59,7 +59,7 @@ export default function Reviews() {
         </div>
 
         <Reveal className="mt-10 text-center">
-          <p className="text-sm font-light italic text-light-sky/45">
+          <p className="text-sm font-light italic text-light-sky/70">
             Recensioni di esempio — sostituiscile con quelle reali dal tuo
             profilo Booking.
           </p>

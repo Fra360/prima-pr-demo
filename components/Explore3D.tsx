@@ -130,7 +130,7 @@ function ModelTab() {
 
       {!ready && (
         <div className="flex h-full items-center justify-center">
-          <span className="eyebrow text-[0.6rem] text-light-sky/60">
+          <span className="eyebrow text-[0.6rem] text-light-sky/70">
             Caricamento modello…
           </span>
         </div>
@@ -242,7 +242,7 @@ export default function Explore3D() {
             {tab === "tour" && <TourTab />}
           </div>
 
-          <p className="mt-6 text-center text-sm font-light italic text-light-sky/55">
+          <p className="mt-6 text-center text-sm font-light italic text-light-sky/70">
             Il modello reale della casa — trascina per ruotarlo, pizzica per
             lo zoom.
           </p>
