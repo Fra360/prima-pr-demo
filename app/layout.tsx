@@ -18,7 +18,7 @@ const jost = Jost({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#101c26",
+  themeColor: "#0d2b45",
   width: "device-width",
   initialScale: 1,
 };
@@ -33,7 +33,25 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${cormorant.variable} ${jost.variable}`}>
+    // suppressHydrationWarning: lo script qui sotto aggiunge la classe `js`
+    // a <html> prima dell'idratazione, quindi server e client differiscono
+    // di proposito su questo attributo.
+    <html
+      lang="it"
+      suppressHydrationWarning
+      className={`${cormorant.variable} ${jost.variable}`}
+    >
+      <head>
+        {/* Marca il documento come "JS attivo" prima del primo paint.
+            Il CSS nasconde i blocchi da animare solo sotto .js: senza
+            JavaScript il contenuto resta visibile e leggibile, e con il
+            JavaScript non c'e nessun lampo di testo gia visibile. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add("js")`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

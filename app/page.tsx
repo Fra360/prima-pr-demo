@@ -1,4 +1,5 @@
 import MotionProvider from "@/components/MotionProvider";
+import Aurora from "@/components/Aurora";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -12,19 +13,24 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main>
-      <MotionProvider>
-        <Navbar />
-        <Hero />
-        <About />
-        <Gallery />
-        <Explore3D />
-        <Amenities />
-        <Location />
-        <Reviews />
-        <BookingCTA />
-        <Footer />
-      </MotionProvider>
-    </main>
+    <>
+      {/* Le forme sfocate dietro tutto: senza di loro il vetro non ha nulla
+          da sfocare e diventa plastica opaca. */}
+      <Aurora />
+      <main>
+        <MotionProvider>
+          <Navbar />
+          <Hero />
+          <About />
+          <Gallery />
+          <Explore3D />
+          <Amenities />
+          <Location />
+          <Reviews />
+          <BookingCTA />
+        </MotionProvider>
+      </main>
+      <Footer />
+    </>
   );
 }
