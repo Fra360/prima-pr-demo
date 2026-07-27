@@ -17,46 +17,40 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <section id="recensioni" className="relative overflow-hidden bg-sea-deep py-28 md:py-36">
-      {/* decorative glow */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 0%, rgba(184,146,90,0.15) 0%, transparent 60%)",
-        }}
-      />
-      <div className="relative mx-auto max-w-6xl px-6">
-        <Reveal>
-          <div className="mb-16 text-center">
-            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.4em] text-gold-light">
-              Recensioni
-            </p>
-            <h2 className="font-display text-4xl font-light text-white md:text-5xl">
-              Gli ospiti <em className="text-gold-light">raccontano</em>
-            </h2>
-            <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-gold/40 px-6 py-3">
-              <span className="font-display text-3xl text-gold-light">9.7</span>
-              <span className="text-left text-[10px] font-medium uppercase leading-tight tracking-[0.2em] text-white/70">
-                Eccezionale
-                <br />
-                su Booking.com
-              </span>
-            </div>
-          </div>
+    <section id="recensioni" className="tone-dark py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal stagger className="mb-14 text-center">
+          <p className="eyebrow text-sandy-beige">Recensioni</p>
+          <h2 className="headline mt-5 text-foam">
+            Gli ospiti{" "}
+            <em className="not-italic text-light-sky">raccontano</em>
+          </h2>
+          <p className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-sandy-beige/40 px-6 py-3">
+            <span className="font-display text-3xl leading-none text-sandy-beige">
+              9.7
+            </span>
+            <span className="text-left text-[0.6rem] font-medium uppercase leading-tight tracking-[0.2em] text-light-sky">
+              Eccezionale
+              <br />
+              su Booking.com
+            </span>
+          </p>
         </Reveal>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           {reviews.map((r, i) => (
             <Reveal key={r.author} delay={i * 0.12}>
-              <figure className="flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
-                <span className="font-display text-6xl leading-none text-gold/60">
+              <figure className="glass glass--dark flex h-full flex-col p-8">
+                <span
+                  aria-hidden="true"
+                  className="font-display text-6xl leading-none text-sandy-beige/50"
+                >
                   &ldquo;
                 </span>
-                <blockquote className="flex-1 font-display text-lg font-light italic leading-relaxed text-white/85">
+                <blockquote className="flex-1 font-display text-lg font-light italic leading-relaxed text-foam">
                   {r.text}
                 </blockquote>
-                <figcaption className="mt-6 text-[10px] font-medium uppercase tracking-[0.25em] text-gold-light">
+                <figcaption className="eyebrow mt-6 text-[0.6rem] text-sandy-beige">
                   {r.author}
                 </figcaption>
               </figure>
@@ -65,7 +59,7 @@ export default function Reviews() {
         </div>
 
         <Reveal className="mt-10 text-center">
-          <p className="text-xs font-light italic text-white/40">
+          <p className="text-sm font-light italic text-light-sky/70">
             Recensioni di esempio — sostituiscile con quelle reali dal tuo
             profilo Booking.
           </p>

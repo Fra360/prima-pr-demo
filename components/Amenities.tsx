@@ -1,5 +1,11 @@
 import Reveal from "./Reveal";
 
+/**
+ * Otto servizi dentro UN SOLO pannello di vetro, non otto pannelli.
+ * `backdrop-filter` e costoso e non va annidato: le celle sono separate da
+ * linee sottili, il vetro lo fa il contenitore.
+ */
+
 const amenities = [
   {
     title: "Terrazza vista mare",
@@ -11,23 +17,17 @@ const amenities = [
   {
     title: "Aria condizionata",
     desc: "Clima perfetto in ogni stagione, in tutti gli ambienti.",
-    icon: (
-      <path d="M12 3v18M5 6l14 12M19 6L5 18M3 12h18" />
-    ),
+    icon: <path d="M12 3v18M5 6l14 12M19 6L5 18M3 12h18" />,
   },
   {
     title: "Cucina completa",
     desc: "Lavastoviglie, forno, microonde e tutto per cucinare come a casa.",
-    icon: (
-      <path d="M4 4h16v16H4zM4 10h16M8 14h.01M12 14h.01" />
-    ),
+    icon: <path d="M4 4h16v16H4zM4 10h16M8 14h.01M12 14h.01" />,
   },
   {
     title: "Parcheggio privato",
     desc: "Posto auto riservato in loco: arrivate e dimenticatevi dell'auto.",
-    icon: (
-      <path d="M5 20V6a2 2 0 012-2h6a4 4 0 010 8H7" />
-    ),
+    icon: <path d="M5 20V6a2 2 0 012-2h6a4 4 0 010 8H7" />,
   },
   {
     title: "WiFi veloce e gratuito",
@@ -46,9 +46,7 @@ const amenities = [
   {
     title: "TV a schermo piatto",
     desc: "Smart TV via cavo per le serate di relax.",
-    icon: (
-      <path d="M3 5h18v12H3zM8 21h8M12 17v4" />
-    ),
+    icon: <path d="M3 5h18v12H3zM8 21h8M12 17v4" />,
   },
   {
     title: "A 7 minuti dal mare",
@@ -61,46 +59,48 @@ const amenities = [
 
 export default function Amenities() {
   return (
-    <section id="servizi" className="py-28 md:py-36">
+    <section id="servizi" className="tone-light py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <Reveal>
-          <div className="mb-16 text-center">
-            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.4em] text-gold">
-              Servizi
-            </p>
-            <h2 className="font-display text-4xl font-light md:text-5xl">
-              Ogni dettaglio, <em className="text-sea">pensato per voi</em>
-            </h2>
-          </div>
+        <Reveal stagger className="mb-14 text-center">
+          <p className="eyebrow text-deep-ocean/80">Servizi</p>
+          <h2 className="headline mt-5 text-deep-ocean">
+            Ogni dettaglio,{" "}
+            <em className="not-italic text-ocean-teal">pensato per voi</em>
+          </h2>
         </Reveal>
 
-        <div className="grid gap-px overflow-hidden rounded-[1.75rem] border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
-          {amenities.map((a, i) => (
-            <Reveal
-              key={a.title}
-              delay={i * 0.05}
-              className="group bg-ivory p-8 transition-colors duration-500 hover:bg-ivory-dark"
-            >
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mb-5 text-gold transition-transform duration-500 group-hover:-translate-y-1"
+        <Reveal>
+          <ul className="glass glass--light grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-4">
+            {amenities.map((a) => (
+              <li
+                key={a.title}
+                className="group rounded-md p-6 transition-colors duration-500 hover:bg-foam/45"
               >
-                {a.icon}
-              </svg>
-              <h3 className="font-display text-xl">{a.title}</h3>
-              <p className="mt-2 text-sm font-light leading-relaxed text-ink-soft/70">
-                {a.desc}
-              </p>
-            </Reveal>
-          ))}
-        </div>
+                {/* L'icona non basta da sola: sotto c'e sempre il testo */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  className="mb-5 text-seafoam transition-transform duration-500 group-hover:-translate-y-1"
+                >
+                  {a.icon}
+                </svg>
+                <h3 className="font-display text-xl text-deep-ocean">
+                  {a.title}
+                </h3>
+                <p className="mt-2 text-sm font-light leading-relaxed text-deep-ocean/80">
+                  {a.desc}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
   );
