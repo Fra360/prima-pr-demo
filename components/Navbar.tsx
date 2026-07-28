@@ -67,7 +67,7 @@ export default function Navbar() {
             <span className="font-display text-2xl tracking-wide text-foam">
               Casa Omero
             </span>
-            <span className="eyebrow hidden text-[0.55rem] text-sandy-beige sm:inline">
+            <span className="eyebrow hidden text-[0.55rem] text-lagoon sm:inline">
               Sperlonga
             </span>
           </a>

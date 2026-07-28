@@ -6,7 +6,7 @@ export default function Footer() {
           <span className="font-display text-3xl tracking-wide text-foam">
             Casa Omero
           </span>
-          <p className="eyebrow mt-1.5 text-[0.6rem] text-sandy-beige">
+          <p className="eyebrow mt-1.5 text-[0.6rem] text-lagoon">
             Sperlonga · Italia
           </p>
         </div>

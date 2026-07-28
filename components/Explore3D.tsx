@@ -82,7 +82,7 @@ function ModelTab() {
             width: "100%",
             height: "100%",
             background:
-              "radial-gradient(ellipse at 50% 35%, #1e5a6e 0%, #0d2b45 65%, #0d2b45 100%)",
+              "radial-gradient(ellipse at 50% 35%, var(--color-slate-blue) 0%, var(--color-deep-ocean) 65%, var(--color-deep-ocean) 100%)",
           }}
         />
       )}
@@ -94,7 +94,7 @@ function ModelTab() {
           </span>
           <div className="h-[3px] w-40 overflow-hidden rounded-full bg-light-sky/20">
             <div
-              className="h-full rounded-full bg-sandy-beige transition-[width] duration-200"
+              className="h-full rounded-full bg-lagoon transition-[width] duration-200"
               style={{ width: `${Math.max(progress * 100, 4)}%` }}
             />
           </div>
@@ -167,13 +167,13 @@ function TourTab() {
           allow="fullscreen; xr-spatial-tracking; accelerometer; gyroscope"
         />
       ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-7 bg-gradient-to-br from-ocean-teal to-deep-ocean px-6 text-center">
-          <p className="eyebrow text-sandy-beige">Virtual tour immersivo</p>
+        <div className="flex h-full w-full flex-col items-center justify-center gap-7 bg-gradient-to-br from-slate-blue to-deep-ocean px-6 text-center">
+          <p className="eyebrow text-lagoon">Virtual tour immersivo</p>
           {state === "missing" ? (
             <p className="max-w-md text-sm font-light leading-relaxed text-light-sky">
               La build Unity non è ancora online: esporta il progetto in
               WebGL e copia la cartella della build in{" "}
-              <code className="text-sandy-beige">public/tour/</code>. Questo
+              <code className="text-lagoon">public/tour/</code>. Questo
               pulsante la avvierà automaticamente.
             </p>
           ) : (
@@ -202,7 +202,7 @@ export default function Explore3D() {
     <section id="esperienza3d" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal stagger className="mb-12 text-center">
-          <p className="eyebrow text-sandy-beige">Esperienza immersiva</p>
+          <p className="eyebrow text-lagoon">Esperienza immersiva</p>
           <h2 className="headline mt-5 text-foam">
             Esplora la casa{" "}
             <em className="not-italic text-light-sky">prima di arrivare</em>
@@ -235,7 +235,7 @@ export default function Explore3D() {
                   onClick={() => setTab(t.id)}
                   className={`min-h-[44px] flex-1 whitespace-nowrap rounded-full px-4 text-[0.6rem] font-medium uppercase tracking-[0.2em] transition-colors sm:flex-none sm:px-10 ${
                     tab === t.id
-                      ? "bg-sandy-beige text-deep-ocean"
+                      ? "bg-lagoon text-deep-ocean"
                       : "text-light-sky/80 hover:text-seafoam"
                   }`}
                 >

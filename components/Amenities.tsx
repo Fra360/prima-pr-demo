@@ -65,7 +65,7 @@ export default function Amenities() {
           <p className="eyebrow text-deep-ocean/80">Servizi</p>
           <h2 className="headline mt-5 text-deep-ocean">
             Ogni dettaglio,{" "}
-            <em className="not-italic text-ocean-teal">pensato per voi</em>
+            <em className="not-italic text-slate-blue">pensato per voi</em>
           </h2>
         </Reveal>
 
@@ -87,7 +87,7 @@ export default function Amenities() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   aria-hidden="true"
-                  className="mb-5 text-seafoam transition-transform duration-500 group-hover:-translate-y-1"
+                  className="mb-5 text-deep-ocean transition-transform duration-500 group-hover:-translate-y-1"
                 >
                   {a.icon}
                 </svg>
