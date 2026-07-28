@@ -56,7 +56,7 @@ export default function About() {
           <Reveal stagger>
             <h2 className="headline text-deep-ocean">
               Dove il tempo rallenta,{" "}
-              <em className="not-italic text-ocean-teal">
+              <em className="not-italic text-slate-blue">
                 e il mare entra in casa
               </em>
             </h2>
@@ -97,7 +97,7 @@ export default function About() {
               <div key={s.label} className="text-center">
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <span className="block font-display text-5xl font-light text-ocean-teal md:text-6xl">
+                  <span className="block font-display text-5xl font-light text-slate-blue md:text-6xl">
                     {s.value}
                   </span>
                   <span className="eyebrow mt-2 block text-[0.6rem] text-deep-ocean/80">

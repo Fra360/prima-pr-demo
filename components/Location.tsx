@@ -33,7 +33,7 @@ export default function Location() {
             <p className="eyebrow text-deep-ocean/80">La Posizione</p>
             <h2 className="headline mt-5 text-deep-ocean">
               Sperlonga, la perla{" "}
-              <em className="not-italic text-ocean-teal">
+              <em className="not-italic text-slate-blue">
                 della Riviera di Ulisse
               </em>
             </h2>
@@ -45,7 +45,7 @@ export default function Location() {
               la leggendaria Grotta di Tiberio.
             </p>
 
-            <ul className="glass glass--light mt-9 divide-y divide-ocean-teal/12 px-6">
+            <ul className="glass glass--light mt-9 divide-y divide-slate-blue/12 px-6">
               {spots.map((s) => (
                 <li
                   key={s.name}

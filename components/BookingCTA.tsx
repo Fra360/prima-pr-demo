@@ -19,7 +19,7 @@ export default function BookingCTA() {
           <h2 className="headline mt-6 text-deep-ocean">
             Il mare vi aspetta.
             <br />
-            <em className="not-italic text-ocean-teal">Casa Omero anche.</em>
+            <em className="not-italic text-slate-blue">Casa Omero anche.</em>
           </h2>
 
           <div className="rule mx-auto my-8" />
@@ -44,7 +44,7 @@ export default function BookingCTA() {
 
             {/* Riprova sociale nel punto esatto della decisione */}
             <p className="flex items-center gap-2 text-sm text-deep-ocean/80">
-              <span aria-hidden="true" className="text-sandy-beige">
+              <span aria-hidden="true" className="text-deep-ocean">
                 ★★★★★
               </span>
               <span>
@@ -55,7 +55,7 @@ export default function BookingCTA() {
 
             <a
               href="mailto:info@casaomerosperlonga.it"
-              className="mt-2 inline-flex min-h-[44px] items-center text-sm text-deep-ocean/80 underline decoration-ocean-teal/30 underline-offset-4 transition-colors hover:text-deep-ocean hover:decoration-deep-ocean"
+              className="mt-2 inline-flex min-h-[44px] items-center text-sm text-deep-ocean/80 underline decoration-slate-blue/30 underline-offset-4 transition-colors hover:text-deep-ocean hover:decoration-deep-ocean"
             >
               Oppure scrivici per una richiesta speciale
             </a>

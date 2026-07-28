@@ -163,7 +163,7 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-[3px] bg-light-sky/10">
           <div
             ref={barRef}
-            className="h-full origin-left bg-sandy-beige"
+            className="h-full origin-left bg-lagoon"
             style={{ transform: "scaleX(0)" }}
           />
         </div>

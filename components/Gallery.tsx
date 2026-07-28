@@ -24,7 +24,7 @@ export default function Gallery() {
     <section id="galleria" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal stagger className="mb-14 text-center">
-          <p className="eyebrow text-sandy-beige">Galleria</p>
+          <p className="eyebrow text-lagoon">Galleria</p>
           <h2 className="headline mt-5 text-foam">
             Uno sguardo <em className="not-italic text-light-sky">dentro</em>
           </h2>

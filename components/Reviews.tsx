@@ -20,13 +20,13 @@ export default function Reviews() {
     <section id="recensioni" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal stagger className="mb-14 text-center">
-          <p className="eyebrow text-sandy-beige">Recensioni</p>
+          <p className="eyebrow text-lagoon">Recensioni</p>
           <h2 className="headline mt-5 text-foam">
             Gli ospiti{" "}
             <em className="not-italic text-light-sky">raccontano</em>
           </h2>
-          <p className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-sandy-beige/40 px-6 py-3">
-            <span className="font-display text-3xl leading-none text-sandy-beige">
+          <p className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-lagoon/40 px-6 py-3">
+            <span className="font-display text-3xl leading-none text-lagoon">
               9.7
             </span>
             <span className="text-left text-[0.6rem] font-medium uppercase leading-tight tracking-[0.2em] text-light-sky">
@@ -43,14 +43,14 @@ export default function Reviews() {
               <figure className="glass glass--dark flex h-full flex-col p-8">
                 <span
                   aria-hidden="true"
-                  className="font-display text-6xl leading-none text-sandy-beige/50"
+                  className="font-display text-6xl leading-none text-lagoon/50"
                 >
                   &ldquo;
                 </span>
                 <blockquote className="flex-1 font-display text-lg font-light italic leading-relaxed text-foam">
                   {r.text}
                 </blockquote>
-                <figcaption className="eyebrow mt-6 text-[0.6rem] text-sandy-beige">
+                <figcaption className="eyebrow mt-6 text-[0.6rem] text-lagoon">
                   {r.author}
                 </figcaption>
               </figure>

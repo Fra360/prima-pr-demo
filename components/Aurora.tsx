@@ -63,7 +63,7 @@ export default function Aurora() {
     <div className="aurora" aria-hidden="true">
       <div className="aurora__blob aurora__blob--teal" data-parallax="0.3" />
       <div className="aurora__blob aurora__blob--seafoam" data-parallax="0.4" />
-      <div className="aurora__blob aurora__blob--sandy" data-parallax="0.25" />
+      <div className="aurora__blob aurora__blob--lagoon" data-parallax="0.25" />
       <div className="aurora__ring" />
     </div>
   );

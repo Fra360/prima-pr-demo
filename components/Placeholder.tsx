@@ -1,17 +1,23 @@
 type Variant = "sea" | "sunset" | "interior" | "stone" | "garden" | "night";
 
 /**
- * Segnaposto per le foto reali. I gradienti restano dentro la palette e
- * vanno solo tra colori adiacenti: niente arcobaleni.
- * "sunset" e l'unico che usa Sandy beige — l'accento caldo e raro.
+ * Segnaposto per le foto reali. I gradienti leggono i token della palette
+ * invece di ripetere gli hex: cambiando la palette cambiano anche loro.
+ * Vanno solo tra colori adiacenti della scala, dal chiaro al profondo:
+ * niente arcobaleni. "lagoon" e l'accento, quindi compare di rado.
  */
 const gradients: Record<Variant, string> = {
-  sea: "linear-gradient(160deg, #b7d4e6 0%, #6ba7a0 45%, #1e5a6e 100%)",
-  sunset: "linear-gradient(160deg, #dcc8aa 0%, #6ba7a0 55%, #1e5a6e 100%)",
-  interior: "linear-gradient(160deg, #dcc8aa 0%, #b7d4e6 50%, #1e5a6e 100%)",
-  stone: "linear-gradient(160deg, #b7d4e6 0%, #dcc8aa 50%, #1e5a6e 100%)",
-  garden: "linear-gradient(160deg, #6ba7a0 0%, #1e5a6e 55%, #0d2b45 100%)",
-  night: "linear-gradient(160deg, #1e5a6e 0%, #0d2b45 60%, #0d2b45 100%)",
+  sea: "linear-gradient(160deg, var(--color-light-sky) 0%, var(--color-seafoam) 45%, var(--color-deep-ocean) 100%)",
+  sunset:
+    "linear-gradient(160deg, var(--color-lagoon) 0%, var(--color-seafoam) 55%, var(--color-deep-ocean) 100%)",
+  interior:
+    "linear-gradient(160deg, var(--color-light-sky) 0%, var(--color-seafoam) 50%, var(--color-slate-blue) 100%)",
+  stone:
+    "linear-gradient(160deg, var(--color-light-sky) 0%, var(--color-slate-blue) 55%, var(--color-deep-ocean) 100%)",
+  garden:
+    "linear-gradient(160deg, var(--color-seafoam) 0%, var(--color-deep-ocean) 55%, var(--color-slate-blue) 100%)",
+  night:
+    "linear-gradient(160deg, var(--color-slate-blue) 0%, var(--color-deep-ocean) 60%, var(--color-deep-ocean) 100%)",
 };
 
 export default function Placeholder({
@@ -35,7 +41,7 @@ export default function Placeholder({
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 25% 15%, rgb(242 247 250 / 0.4) 0%, transparent 55%)",
+            "radial-gradient(ellipse at 25% 15%, rgb(var(--rgb-foam) / 0.4) 0%, transparent 55%)",
         }}
       />
       {/* Velatura sotto la didascalia: i gradienti vanno dal chiaro allo
