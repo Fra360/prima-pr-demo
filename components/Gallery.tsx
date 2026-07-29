@@ -5,7 +5,7 @@ import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
 
 /**
- * Sezione scura: nessuno sfondo proprio, si vede il verde profondo del body
+ * Sezione scura: nessuno sfondo proprio, si vede il blu profondo del body
  * con l'aurora che filtra dietro le foto.
  *
  * Galleria a scorrimento orizzontale, su telefono come su desktop. In
@@ -73,7 +73,7 @@ export default function Gallery() {
           puntatore preciso: su touch si trascina. */}
       <div className="relative mx-auto mb-14 max-w-6xl px-6">
         <Reveal stagger className="text-center">
-          <p className="eyebrow text-lagoon">Galleria</p>
+          <p className="eyebrow text-light-sky">Galleria</p>
           <h2 className="headline mt-5 text-foam">
             Uno sguardo <em className="not-italic text-light-sky">dentro</em>
           </h2>

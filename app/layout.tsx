@@ -18,7 +18,7 @@ const jost = Jost({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#004c5c",
+  themeColor: "#12284b",
   width: "device-width",
   initialScale: 1,
 };

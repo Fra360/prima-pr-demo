@@ -8,8 +8,11 @@ type Variant = "sea" | "sunset" | "interior" | "stone" | "garden" | "night";
  */
 const gradients: Record<Variant, string> = {
   sea: "linear-gradient(160deg, var(--color-light-sky) 0%, var(--color-seafoam) 45%, var(--color-deep-ocean) 100%)",
+  /* Il crema sta a meta e non in cima: partendo dall'accento la card
+     diventava una lastra quasi bianca in mezzo alle altre. Cosi resta una
+     fascia calda sull'orizzonte. */
   sunset:
-    "linear-gradient(160deg, var(--color-lagoon) 0%, var(--color-seafoam) 55%, var(--color-deep-ocean) 100%)",
+    "linear-gradient(160deg, var(--color-seafoam) 0%, var(--color-lagoon) 55%, var(--color-slate-blue) 100%)",
   interior:
     "linear-gradient(160deg, var(--color-light-sky) 0%, var(--color-seafoam) 50%, var(--color-slate-blue) 100%)",
   stone:
