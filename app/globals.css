@@ -8,31 +8,34 @@
    ========================================================================== */
 
 @theme {
-  /* I cinque verdi della palette di riferimento, piu una sola tinta
+  /* I quattro colori della palette di riferimento, piu una sola tinta
      derivata. Da qui discende tutto il sito: cambiando questi valori cambia
      ogni superficie, senza colori sparsi nei componenti.
 
-     #35513c Highlander -> fondo scuro            (deep-ocean)
-     #577455 Cactus     -> superfici secondarie   (slate-blue)
-     #7b9762 Mosslands  -> decori, aurora         (seafoam)
-     #a9c6ad Gum Leaf   -> testo tenue su scuro   (light-sky)
-     #bcc876 Soda Pop   -> accento e focus        (lagoon)
+     #12284b Deep Ocean -> fondo del sito         (deep-ocean)
+     #0055a0 Blueberry  -> superfici secondarie   (slate-blue)
+     #438bc4 Bluebird   -> decori, aurora         (seafoam)
+     #fff8e7 Clouds     -> testo e accento        (foam / lagoon)
 
-     Regola: la palette non contiene un tono quasi bianco (il piu chiaro,
-     Gum Leaf, da solo 4.75:1 come testo). Il testo principale e le sezioni
-     chiare usano quindi la tinta derivata --color-foam, uno schiarimento
-     del Gum Leaf che porta il testo a 7.8:1 e permette al Cactus di fare
-     l'evidenziato sul chiaro (4.6:1 invece di 2.8:1).
+     Il Bluebird come testo tenue sul fondo si ferma a 4.00:1, appena sotto
+     la soglia: --color-light-sky e un suo schiarimento (5.65:1). E l'unico
+     colore derivato.
 
-     Regola: l'accento e chiaro, quindi su fondo CHIARO sparisce (Soda Pop
-     su tinta pallida = 1.6:1). Nelle sezioni tone-light l'accento lo fa il
-     tono piu profondo (deep-ocean), non il Soda Pop. */
-  --color-deep-ocean: #35513c;
-  --color-slate-blue: #577455;
-  --color-seafoam: #7b9762;
-  --color-light-sky: #a9c6ad;
-  --color-lagoon: #bcc876;
-  --color-foam: #edf3ee;
+     Accento e testo condividono il Clouds: sul blu scuro l'unico colore che
+     regge come riempimento di un bottone e il crema (navy sul crema 13.9:1;
+     il Bluebird come fondo bottone si fermerebbe a 4.00:1 col navy e 3.46:1
+     col crema). Restano due token distinti perche sono due ruoli diversi e
+     con un'altra palette possono tornare a divergere. Per non appiattire
+     tutto, gli occhielli sulle sezioni scure usano light-sky, non l'accento.
+
+     Regola: l'accento e chiarissimo, quindi su fondo CHIARO sparisce. Nelle
+     sezioni tone-light l'accento lo fanno deep-ocean e slate-blue. */
+  --color-deep-ocean: #12284b;
+  --color-slate-blue: #0055a0;
+  --color-seafoam: #438bc4;
+  --color-light-sky: #74a6cd;
+  --color-lagoon: #fff8e7;
+  --color-foam: #fff8e7;
 
   /* Scala dei raggi: nessun angolo vivo da nessuna parte */
   --radius-sm: 12px; /* input, tag, badge */
@@ -46,12 +49,12 @@
 
 :root {
   /* Componenti RGB, per derivare gli alpha senza riscrivere gli hex */
-  --rgb-deep-ocean: 53 81 60;
-  --rgb-slate-blue: 87 116 85;
-  --rgb-seafoam: 123 151 98;
-  --rgb-lagoon: 188 200 118;
-  --rgb-light-sky: 169 198 173;
-  --rgb-foam: 237 243 238;
+  --rgb-deep-ocean: 18 40 75;
+  --rgb-slate-blue: 0 85 160;
+  --rgb-seafoam: 67 139 196;
+  --rgb-lagoon: 255 248 231;
+  --rgb-light-sky: 116 166 205;
+  --rgb-foam: 255 248 231;
 
   /* Vetro */
   --glass-blur: 24px;
@@ -99,7 +102,7 @@ body {
 }
 
 /* Il focus da tastiera deve essere sempre visibile: mai outline:none.
-   Usa l'accento: il Mosslands sul fondo scuro darebbe solo 2.7:1. */
+   Usa l'accento: sul fondo navy il crema da 13.9:1. */
 :focus-visible {
   outline: 2px solid var(--color-lagoon);
   outline-offset: 3px;
@@ -134,8 +137,8 @@ body {
   color: var(--color-foam);
 }
 
-/* Fondo delle sezioni chiare: la tinta pallida, non il Gum Leaf. Sul Gum
-   Leaf l'evidenziato in Cactus scenderebbe a 2.8:1. */
+/* Fondo delle sezioni chiare: il crema. Sopra, il navy fa il testo (13.9:1)
+   e il Blueberry l'evidenziato (7.1:1). */
 .tone-light {
   background: linear-gradient(
     180deg,
@@ -173,7 +176,7 @@ body {
   top: -6vw;
   left: -8vw;
   background: var(--color-slate-blue);
-  opacity: 0.62;
+  opacity: 0.55;
   animation: drift-a 34s ease-in-out infinite alternate;
 }
 
@@ -183,7 +186,7 @@ body {
   top: 34vh;
   right: -10vw;
   background: var(--color-seafoam);
-  opacity: 0.44;
+  opacity: 0.26;
   animation: drift-b 40s ease-in-out infinite alternate;
 }
 
@@ -193,7 +196,9 @@ body {
   bottom: -8vw;
   left: 28vw;
   background: var(--color-lagoon);
-  opacity: 0.3;
+  /* Crema: sul blu scuro basta un velo, altrimenti il fondo si slava e
+     smette di leggersi come navy. */
+  opacity: 0.07;
   animation: drift-c 28s ease-in-out infinite alternate;
 }
 
@@ -206,7 +211,7 @@ body {
   height: 22vw;
   border: 5vw solid var(--color-seafoam);
   border-radius: 50%;
-  opacity: 0.22;
+  opacity: 0.16;
   filter: blur(70px);
   animation: drift-b 36s ease-in-out infinite alternate-reverse;
 }
@@ -376,11 +381,14 @@ body {
    profondo abbastanza carico da tenere il testo bianco sopra 4.6:1 anche
    quando dietro passa il Light sky. */
 .glass--nav {
+  /* Piu opaca del vetro normale: la barra passa sopra sezioni scure e
+     sezioni chiare, e con poca opacita le voci diventavano illeggibili
+     sul chiaro (1.5:1). Cosi resta sempre una barra scura. */
   background:
     linear-gradient(
         135deg,
-        rgb(var(--rgb-deep-ocean) / 0.75),
-        rgb(var(--rgb-deep-ocean) / 0.6)
+        rgb(var(--rgb-deep-ocean) / 0.9),
+        rgb(var(--rgb-deep-ocean) / 0.85)
       )
       padding-box,
     linear-gradient(

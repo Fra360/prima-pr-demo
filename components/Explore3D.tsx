@@ -155,7 +155,7 @@ export default function Explore3D() {
     <section id="esperienza3d" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal stagger className="mb-12 text-center">
-          <p className="eyebrow text-lagoon">Esperienza immersiva</p>
+          <p className="eyebrow text-light-sky">Esperienza immersiva</p>
           <h2 className="headline mt-5 text-foam">
             Esplora la casa{" "}
             <em className="not-italic text-light-sky">prima di arrivare</em>

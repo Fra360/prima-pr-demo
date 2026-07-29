@@ -78,10 +78,14 @@ export default function Navbar() {
                 <a
                   href={l.href}
                   aria-current={active === l.href ? "true" : undefined}
+                  // La barra scorre sopra sezioni scure e sezioni chiare:
+                  // un azzurro tenue si leggeva 1.5:1 su quelle chiare. Il
+                  // crema regge su entrambe, e la voce attiva si distingue
+                  // per pienezza invece che per tinta.
                   className={`eyebrow text-[0.6rem] transition-colors ${
                     active === l.href
-                      ? "text-seafoam"
-                      : "text-light-sky/75 hover:text-seafoam"
+                      ? "text-foam"
+                      : "text-foam/70 hover:text-foam"
                   }`}
                 >
                   {l.label}
@@ -122,7 +126,7 @@ export default function Navbar() {
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="eyebrow flex min-h-[48px] items-center px-3 text-[0.65rem] text-light-sky"
+                  className="eyebrow flex min-h-[48px] items-center px-3 text-[0.65rem] text-foam/80"
                 >
                   {l.label}
                 </a>

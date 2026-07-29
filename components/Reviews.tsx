@@ -20,7 +20,7 @@ export default function Reviews() {
     <section id="recensioni" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal stagger className="mb-14 text-center">
-          <p className="eyebrow text-lagoon">Recensioni</p>
+          <p className="eyebrow text-light-sky">Recensioni</p>
           <h2 className="headline mt-5 text-foam">
             Gli ospiti{" "}
             <em className="not-italic text-light-sky">raccontano</em>
