@@ -648,3 +648,19 @@ body {
     transform: none;
   }
 }
+
+/* ==========================================================================
+   9. UTILITY
+   ========================================================================== */
+
+/* Nastro orizzontale della galleria: la barra di scorrimento nativa e
+   ridondante (ci sono le frecce su desktop e il trascinamento su touch) e
+   sotto le foto stonerebbe. Lo scorrimento da tastiera resta possibile
+   perche il contenitore e focusabile. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
