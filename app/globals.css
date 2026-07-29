@@ -664,3 +664,10 @@ body {
     display: none;
   }
 }
+
+/* Il visore 3D disegna una sua barra di caricamento in cima: senza cornice
+   diventava una riga scura a tutta larghezza. Ne mostriamo gia una nostra
+   al centro del riquadro. */
+model-viewer::part(default-progress-bar) {
+  display: none;
+}
