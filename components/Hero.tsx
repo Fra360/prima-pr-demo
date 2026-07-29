@@ -47,6 +47,9 @@ export default function Hero() {
   const veilRef = useRef<HTMLDivElement>(null);
   const cueRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  /* Vero solo durante lo sblocco iOS: e l'unico istante in cui al video e
+     concesso di riprodursi, quindi la rete di sicurezza lo lascia fare. */
+  const sbloccoInCorso = useRef(false);
 
   // Velo, indicatore di scroll e barra di avanzamento aggiornati a mano:
   // i binding dichiarativi scroll->stile di framer-motion vengono compilati
@@ -74,26 +77,49 @@ export default function Hero() {
   }, []);
 
   // Sblocco iOS: su iPhone il seeking (currentTime) non aggiorna i frame
-  // finche il video non e stato "riprodotto" almeno una volta. Un muted
-  // inline video puo fare play/pause senza gesto, ma per sicurezza ritentiamo
-  // anche al primo tocco. Senza questo, su iOS lo scrubbing resta congelato.
+  // finche il video non e stato "riprodotto" almeno una volta.
+  //
+  // Il video non deve MAI partire da solo: e lo scroll a farlo avanzare.
+  // Quindi lo sblocco (a) non avviene al caricamento ma al primo gesto
+  // dell'utente, (b) mette subito in pausa, (c) e una tantum. Prima veniva
+  // eseguito al mount — e il video partiva da solo — e restava agganciato a
+  // ogni tocco, quindi ripartiva a ogni dito appoggiato sullo schermo.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true; // React a volte non imposta la proprieta muted
-    const unlock = () => {
-      const p = video.play();
+
+    let sbloccato = false;
+    const stacca = () => {
+      window.removeEventListener("touchstart", sblocca);
+      window.removeEventListener("pointerdown", sblocca);
+    };
+    function sblocca() {
+      if (sbloccato) return;
+      sbloccoInCorso.current = true;
+      const p = video!.play();
       if (p && typeof p.then === "function") {
-        p.then(() => video.pause()).catch(() => {});
+        p.then(() => {
+          // Riprodotto per un istante: ora il seeking funziona anche su iOS
+          sbloccato = true;
+          video!.pause();
+          sbloccoInCorso.current = false;
+          stacca();
+        }).catch(() => {
+          // Bloccato dal browser: riproviamo al gesto successivo
+          sbloccoInCorso.current = false;
+        });
+      } else {
+        sbloccato = true;
+        video!.pause();
+        sbloccoInCorso.current = false;
+        stacca();
       }
-    };
-    unlock();
-    window.addEventListener("touchstart", unlock, { passive: true });
-    window.addEventListener("pointerdown", unlock);
-    return () => {
-      window.removeEventListener("touchstart", unlock);
-      window.removeEventListener("pointerdown", unlock);
-    };
+    }
+
+    window.addEventListener("touchstart", sblocca, { passive: true });
+    window.addEventListener("pointerdown", sblocca);
+    return stacca;
   }, []);
 
   // Scrub del video con lo scroll (con smoothing)
@@ -101,13 +127,17 @@ export default function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
-    // Con la riduzione del movimento attiva restiamo sul primo fotogramma
-    if (reduced) return;
-
     let raf = 0;
     let current = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
+      // Rete di sicurezza: il video avanza solo per effetto dello scroll, mai
+      // da solo. Se qualcosa lo fa partire, viene fermato entro un frame.
+      // Unica eccezione: l'istante dello sblocco iOS. Il controllo sta prima
+      // dell'uscita per "riduci movimento", cosi vale anche in quel caso.
+      if (!video.paused && !sbloccoInCorso.current) video.pause();
+      // Con la riduzione del movimento attiva restiamo sul primo fotogramma
+      if (reduced) return;
       if (!video.duration || video.readyState < 2) return;
       // Il video completa la sua animazione prima della fine dello scroll:
       // l'ultimo tratto tiene fermo il frame finale, cosi la scena finita

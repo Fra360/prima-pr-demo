@@ -8,28 +8,31 @@
    ========================================================================== */
 
 @theme {
-  /* I cinque colori della palette di riferimento (foto dell'onda), piu un
-     solo tono derivato. Da qui discende tutto il sito: cambiando questi
-     valori cambia ogni superficie, senza colori sparsi nei componenti.
+  /* I cinque verdi della palette di riferimento, piu una sola tinta
+     derivata. Da qui discende tutto il sito: cambiando questi valori cambia
+     ogni superficie, senza colori sparsi nei componenti.
 
-     #004c5c petrolio   -> fondo scuro          (deep-ocean)
-     #3c5967 ardesia    -> superfici secondarie (slate-blue)
-     #26c9ce turchese   -> accento              (lagoon)
-     #98ebf3 azzurro    -> testo tenue e sezioni chiare (light-sky)
-     #f5fdff ghiaccio   -> testo principale     (foam)
+     #35513c Highlander -> fondo scuro            (deep-ocean)
+     #577455 Cactus     -> superfici secondarie   (slate-blue)
+     #7b9762 Mosslands  -> decori, aurora         (seafoam)
+     #a9c6ad Gum Leaf   -> testo tenue su scuro   (light-sky)
+     #bcc876 Soda Pop   -> accento e focus        (lagoon)
 
-     Regola: la palette e tutta fredda, quindi su fondo CHIARO un accento
-     freddo sparisce (turchese su azzurro = 1.6:1). Nelle sezioni tone-light
-     l'accento lo fa il tono piu profondo (deep-ocean), non il turchese. */
-  --color-deep-ocean: #004c5c;
-  --color-slate-blue: #3c5967;
-  --color-lagoon: #26c9ce;
-  --color-light-sky: #98ebf3;
-  --color-foam: #f5fdff;
-  /* Unico tono derivato: media fra turchese e azzurro chiaro. Serve uno
-     stato "piu acceso dell'accento" per hover e focus, che il turchese da
-     solo non puo fare (sarebbe identico all'accento). 5.8:1 sul petrolio. */
-  --color-seafoam: #5fdae1;
+     Regola: la palette non contiene un tono quasi bianco (il piu chiaro,
+     Gum Leaf, da solo 4.75:1 come testo). Il testo principale e le sezioni
+     chiare usano quindi la tinta derivata --color-foam, uno schiarimento
+     del Gum Leaf che porta il testo a 7.8:1 e permette al Cactus di fare
+     l'evidenziato sul chiaro (4.6:1 invece di 2.8:1).
+
+     Regola: l'accento e chiaro, quindi su fondo CHIARO sparisce (Soda Pop
+     su tinta pallida = 1.6:1). Nelle sezioni tone-light l'accento lo fa il
+     tono piu profondo (deep-ocean), non il Soda Pop. */
+  --color-deep-ocean: #35513c;
+  --color-slate-blue: #577455;
+  --color-seafoam: #7b9762;
+  --color-light-sky: #a9c6ad;
+  --color-lagoon: #bcc876;
+  --color-foam: #edf3ee;
 
   /* Scala dei raggi: nessun angolo vivo da nessuna parte */
   --radius-sm: 12px; /* input, tag, badge */
@@ -43,12 +46,12 @@
 
 :root {
   /* Componenti RGB, per derivare gli alpha senza riscrivere gli hex */
-  --rgb-deep-ocean: 0 76 92;
-  --rgb-slate-blue: 60 89 103;
-  --rgb-seafoam: 95 218 225;
-  --rgb-lagoon: 38 201 206;
-  --rgb-light-sky: 152 235 243;
-  --rgb-foam: 245 253 255;
+  --rgb-deep-ocean: 53 81 60;
+  --rgb-slate-blue: 87 116 85;
+  --rgb-seafoam: 123 151 98;
+  --rgb-lagoon: 188 200 118;
+  --rgb-light-sky: 169 198 173;
+  --rgb-foam: 237 243 238;
 
   /* Vetro */
   --glass-blur: 24px;
@@ -95,9 +98,10 @@ body {
   color: var(--color-deep-ocean);
 }
 
-/* Il focus da tastiera deve essere sempre visibile: mai outline:none */
+/* Il focus da tastiera deve essere sempre visibile: mai outline:none.
+   Usa l'accento: il Mosslands sul fondo scuro darebbe solo 2.7:1. */
 :focus-visible {
-  outline: 2px solid var(--color-seafoam);
+  outline: 2px solid var(--color-lagoon);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -130,12 +134,14 @@ body {
   color: var(--color-foam);
 }
 
+/* Fondo delle sezioni chiare: la tinta pallida, non il Gum Leaf. Sul Gum
+   Leaf l'evidenziato in Cactus scenderebbe a 2.8:1. */
 .tone-light {
   background: linear-gradient(
     180deg,
-    rgb(var(--rgb-light-sky) / 0.94) 0%,
-    rgb(var(--rgb-light-sky) / 0.88) 50%,
-    rgb(var(--rgb-light-sky) / 0.94) 100%
+    rgb(var(--rgb-foam) / 0.94) 0%,
+    rgb(var(--rgb-foam) / 0.88) 50%,
+    rgb(var(--rgb-foam) / 0.94) 100%
   );
   color: var(--color-deep-ocean);
 }
@@ -641,4 +647,27 @@ body {
   .btn:hover {
     transform: none;
   }
+}
+
+/* ==========================================================================
+   9. UTILITY
+   ========================================================================== */
+
+/* Nastro orizzontale della galleria: la barra di scorrimento nativa e
+   ridondante (ci sono le frecce su desktop e il trascinamento su touch) e
+   sotto le foto stonerebbe. Lo scorrimento da tastiera resta possibile
+   perche il contenitore e focusabile. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Il visore 3D disegna una sua barra di caricamento in cima: senza cornice
+   diventava una riga scura a tutta larghezza. Ne mostriamo gia una nostra
+   al centro del riquadro. */
+model-viewer::part(default-progress-bar) {
+  display: none;
 }
