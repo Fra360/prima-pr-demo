@@ -10,7 +10,7 @@ const spots = [
 
 export default function Location() {
   return (
-    <section id="sperlonga" className="tone-light py-24 md:py-32">
+    <section id="sperlonga" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <Reveal className="order-2 lg:order-1">
@@ -30,31 +30,31 @@ export default function Location() {
           </Reveal>
 
           <Reveal stagger className="order-1 lg:order-2">
-            <p className="eyebrow text-deep-ocean/80">La Posizione</p>
-            <h2 className="headline mt-5 text-deep-ocean">
+            <p className="eyebrow text-light-sky">La Posizione</p>
+            <h2 className="headline mt-5 text-foam">
               Sperlonga, la perla{" "}
-              <em className="not-italic text-slate-blue">
+              <em className="not-italic text-light-sky">
                 della Riviera di Ulisse
               </em>
             </h2>
             <div className="rule my-7" />
-            <p className="max-w-lg font-light leading-relaxed text-deep-ocean/80">
+            <p className="max-w-lg font-light leading-relaxed text-foam/85">
               Tra Roma e Napoli, arroccata su uno sperone bianco a picco sul
               Tirreno, Sperlonga è uno dei Borghi più belli d&apos;Italia:
               vicoli imbiancati a calce, bouganville, spiagge Bandiera Blu e
               la leggendaria Grotta di Tiberio.
             </p>
 
-            <ul className="glass glass--light mt-9 divide-y divide-slate-blue/12 px-6">
+            <ul className="glass glass--dark mt-9 divide-y divide-light-sky/15 px-6">
               {spots.map((s) => (
                 <li
                   key={s.name}
                   className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-4"
                 >
-                  <span className="font-display text-lg text-deep-ocean">
+                  <span className="font-display text-lg text-foam">
                     {s.name}
                   </span>
-                  <span className="eyebrow text-[0.6rem] text-deep-ocean/80">
+                  <span className="eyebrow text-[0.6rem] text-light-sky">
                     {s.dist}
                   </span>
                 </li>

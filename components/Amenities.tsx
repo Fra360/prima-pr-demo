@@ -59,22 +59,22 @@ const amenities = [
 
 export default function Amenities() {
   return (
-    <section id="servizi" className="tone-light py-24 md:py-32">
+    <section id="servizi" className="tone-dark py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal stagger className="mb-14 text-center">
-          <p className="eyebrow text-deep-ocean/80">Servizi</p>
-          <h2 className="headline mt-5 text-deep-ocean">
+          <p className="eyebrow text-light-sky">Servizi</p>
+          <h2 className="headline mt-5 text-foam">
             Ogni dettaglio,{" "}
-            <em className="not-italic text-slate-blue">pensato per voi</em>
+            <em className="not-italic text-light-sky">pensato per voi</em>
           </h2>
         </Reveal>
 
         <Reveal>
-          <ul className="glass glass--light grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="glass glass--dark grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-4">
             {amenities.map((a) => (
               <li
                 key={a.title}
-                className="group rounded-md p-6 transition-colors duration-500 hover:bg-foam/45"
+                className="group rounded-md p-6 transition-colors duration-500 hover:bg-foam/10"
               >
                 {/* L'icona non basta da sola: sotto c'e sempre il testo */}
                 <svg
@@ -87,14 +87,14 @@ export default function Amenities() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   aria-hidden="true"
-                  className="mb-5 text-deep-ocean transition-transform duration-500 group-hover:-translate-y-1"
+                  className="mb-5 text-foam transition-transform duration-500 group-hover:-translate-y-1"
                 >
                   {a.icon}
                 </svg>
-                <h3 className="font-display text-xl text-deep-ocean">
+                <h3 className="font-display text-xl text-foam">
                   {a.title}
                 </h3>
-                <p className="mt-2 text-sm font-light leading-relaxed text-deep-ocean/80">
+                <p className="mt-2 text-sm font-light leading-relaxed text-foam/85">
                   {a.desc}
                 </p>
               </li>
