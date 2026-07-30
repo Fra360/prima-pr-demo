@@ -60,15 +60,23 @@ export default function Navbar() {
           className="glass glass--nav flex items-center justify-between gap-4 rounded-xl px-4 py-2.5 transition-all duration-500 sm:px-6"
           aria-label="Navigazione principale"
         >
+          {/* I due testi vanno allineati alla BASE, non al centro: centrati,
+              il maiuscoletto si appoggiava all'altezza delle maiuscole del
+              titolo e sembrava un esponente. Sulla stessa linea di base
+              legge come un sottotitolo affiancato. */}
           <a
             href="#top"
-            className="flex min-h-[44px] items-center gap-2 whitespace-nowrap"
+            className="flex min-h-[44px] items-center whitespace-nowrap"
           >
-            <span className="font-display text-2xl tracking-wide text-foam">
-              Casa Omero
-            </span>
-            <span className="eyebrow hidden text-[0.55rem] text-lagoon sm:inline">
-              Sperlonga
+            {/* Il contenitore interno allinea alla base; quello esterno
+                centra il blocco nei 44px dell'area cliccabile. */}
+            <span className="flex items-baseline gap-2.5">
+              <span className="font-display text-2xl leading-none tracking-wide text-foam">
+                Casa Omero
+              </span>
+              <span className="eyebrow hidden text-[0.55rem] leading-none text-light-sky sm:inline">
+                Sperlonga
+              </span>
             </span>
           </a>
 

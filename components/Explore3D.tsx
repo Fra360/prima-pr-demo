@@ -95,20 +95,24 @@ function VisoreModello() {
         </div>
       )}
 
-      {/* Scudo touch: visibile solo su touchscreen. Un dito sopra di esso
-          scorre la pagina come al solito; il tap lo rimuove e attiva la
-          rotazione del modello. */}
+      {/* Scudo, ora su tutti i dispositivi e non solo su touch. Il visore
+          cattura la rotella per zoomare e non la restituisce alla pagina:
+          con una sezione a tutta larghezza il puntatore ci finisce sopra per
+          forza e lo scroll si inchioda. Finche lo scudo c'e, rotella e dito
+          scorrono la pagina come al solito; il clic lo toglie e da li si
+          ruota e si zooma, "Fine" restituisce lo scroll. */}
       {pronto && !interattivo && !caricando && (
         <button
           onClick={() => setInterattivo(true)}
-          aria-label="Attiva la rotazione del modello 3D"
-          className="absolute inset-0 hidden w-full touch-auto items-end justify-center bg-transparent pb-6 pointer-coarse:flex"
+          aria-label="Attiva l'esplorazione del modello 3D"
+          className="absolute inset-0 flex w-full touch-auto items-end justify-center bg-transparent pb-6"
         >
           <span className="glass glass--dark pointer-events-none flex items-center gap-2 rounded-full px-5 py-3 text-[0.6rem] font-medium uppercase tracking-[0.2em] text-foam">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M8 13V5.5a1.5 1.5 0 013 0V12m0-2.5a1.5 1.5 0 013 0V12m0-1a1.5 1.5 0 013 0v1m0 0a1.5 1.5 0 013 0v3a7 7 0 01-7 7h-1.5a7 7 0 01-5.6-2.8L4.5 15a1.7 1.7 0 012.7-2L8 14" />
             </svg>
-            Tocca per esplorare in 3D
+            <span className="pointer-coarse:hidden">Clicca per esplorare in 3D</span>
+            <span className="hidden pointer-coarse:inline">Tocca per esplorare in 3D</span>
           </span>
         </button>
       )}
@@ -116,7 +120,7 @@ function VisoreModello() {
       {pronto && interattivo && (
         <button
           onClick={() => setInterattivo(false)}
-          className="glass glass--dark absolute right-4 top-4 hidden min-h-[44px] items-center gap-2 rounded-full px-5 text-[0.6rem] font-medium uppercase tracking-[0.2em] text-foam pointer-coarse:flex"
+          className="glass glass--dark absolute right-4 top-4 flex min-h-[44px] items-center gap-2 rounded-full px-5 text-[0.6rem] font-medium uppercase tracking-[0.2em] text-foam"
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
             <path d="M6 6l12 12M18 6L6 18" />
@@ -192,9 +196,25 @@ export default function Explore3D() {
 
       <div className="mx-auto mt-6 max-w-6xl px-6">
         <p className="text-center text-sm font-light italic text-light-sky/70">
-          {stato === "unity"
-            ? "Funziona direttamente dal browser: non serve installare nulla."
-            : "Il modello reale della casa — trascina per ruotarlo, pizzica per lo zoom."}
+          {stato === "unity" ? (
+            "Funziona direttamente dal browser: non serve installare nulla."
+          ) : (
+            <>
+              Il modello reale della casa —{" "}
+              {/* Il gesto dipende dal dispositivo, e va deciso in CSS e non
+                  in JavaScript: deciderlo al montaggio farebbe comparire un
+                  testo diverso da quello reso dal server. Il default e il
+                  mouse; il tocco lo sostituisce. */}
+              <span className="pointer-coarse:hidden">
+                trascina per ruotarlo, rotella per lo zoom, «Fine» per tornare
+                a scorrere la pagina
+              </span>
+              <span className="hidden pointer-coarse:inline">
+                trascina per ruotarlo, pizzica per lo zoom
+              </span>
+              .
+            </>
+          )}
         </p>
       </div>
     </section>
