@@ -1,4 +1,3 @@
-import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
 
 /**
@@ -8,14 +7,11 @@ import Reveal from "./Reveal";
  * sottotitolo) non e stato buttato: e stato spostato qui, dove si legge
  * davvero. Questa sezione porta anche l'unico <h1> del sito — prima la
  * pagina non ne aveva nessuno, il nome stava in un <h2> dentro l'hero.
+ *
+ * Tutto incolonnato al centro, come l'apertura: prima il racconto stava in
+ * una colonna a sinistra affiancata da una foto, e l'occhio doveva cambiare
+ * asse di lettura a meta sezione. Le foto vivono nella galleria.
  */
-
-const stats = [
-  { value: "9.7", label: "Voto su Booking" },
-  { value: "7 min", label: "A piedi dal mare" },
-  { value: "2", label: "Bagni eleganti" },
-  { value: "∞", label: "Vista sul blu" },
-];
 
 export default function About() {
   return (
@@ -52,61 +48,26 @@ export default function About() {
           </div>
         </Reveal>
 
-        <div className="mt-24 grid items-center gap-14 lg:mt-32 lg:grid-cols-2">
-          <Reveal stagger>
-            <h2 className="headline text-foam">
-              Dove il tempo rallenta,{" "}
-              <em className="not-italic text-light-sky">
-                e il mare entra in casa
-              </em>
-            </h2>
-            <div className="rule my-7" />
-            <p className="max-w-lg font-light leading-relaxed text-foam/85">
-              Casa Omero è un appartamento raffinato nel cuore di Sperlonga,
-              pensato per chi cerca il lusso della semplicità. Una terrazza
-              privata con vista mare, interni luminosi e curati, una cucina
-              completamente attrezzata e ogni comfort — dall&apos;aria
-              condizionata al parcheggio privato.
-            </p>
-            <p className="mt-5 max-w-lg font-light leading-relaxed text-foam/85">
-              A pochi passi trovate la sabbia dorata della spiaggia di
-              Sperlonga e i vicoli bianchi del borgo, tra i più belli
-              d&apos;Italia.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.12}>
-            {/* Niente vetro sopra le foto: sfocarle le rovinerebbe. Il vetro
-                lo prende solo la didascalia. */}
-            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-              <div className="overflow-hidden rounded-xl" data-parallax="0.9">
-                <div className="aspect-[4/5]">
-                  <Placeholder variant="interior" label="Il soggiorno" />
-                </div>
-              </div>
-              <p className="glass glass--dark absolute -bottom-6 left-6 right-6 px-5 py-4 text-center text-sm font-light md:left-10 md:right-10">
-                Terrazza privata con vista sul Tirreno
-              </p>
-            </div>
-          </Reveal>
-        </div>
-
-        <Reveal className="mt-32">
-          <dl className="glass glass--dark grid grid-cols-2 gap-y-10 px-6 py-12 md:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <dt className="sr-only">{s.label}</dt>
-                <dd>
-                  <span className="block font-display text-5xl font-light text-foam/85 md:text-6xl">
-                    {s.value}
-                  </span>
-                  <span className="eyebrow mt-2 block text-[0.6rem] text-light-sky">
-                    {s.label}
-                  </span>
-                </dd>
-              </div>
-            ))}
-          </dl>
+        <Reveal stagger className="mx-auto mt-24 max-w-2xl text-center lg:mt-32">
+          <h2 className="headline text-foam">
+            Dove il tempo rallenta,{" "}
+            <em className="not-italic text-light-sky">
+              e il mare entra in casa
+            </em>
+          </h2>
+          <div className="rule mx-auto my-7" />
+          <p className="font-light leading-relaxed text-foam/85">
+            Casa Omero è un appartamento raffinato nel cuore di Sperlonga,
+            pensato per chi cerca il lusso della semplicità. Una terrazza
+            privata con vista mare, interni luminosi e curati, una cucina
+            completamente attrezzata e ogni comfort — dall&apos;aria
+            condizionata al parcheggio privato.
+          </p>
+          <p className="mt-5 font-light leading-relaxed text-foam/85">
+            A pochi passi trovate la sabbia dorata della spiaggia di
+            Sperlonga e i vicoli bianchi del borgo, tra i più belli
+            d&apos;Italia.
+          </p>
         </Reveal>
       </div>
     </section>

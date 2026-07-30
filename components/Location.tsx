@@ -2,10 +2,10 @@ import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
 
 const spots = [
-  { name: "Spiaggia di Sperlonga", dist: "7 min a piedi" },
-  { name: "Borgo antico", dist: "5 min a piedi" },
+  { name: "Spiaggia di Sperlonga", dist: "5 min a piedi" },
+  { name: "Borgo antico", dist: "15 min a piedi" },
   { name: "Grotta di Tiberio e Museo", dist: "10 min in auto" },
-  { name: "Porto di Formia", dist: "21 km" },
+  { name: "Stazione di Fondi-Sperlonga", dist: "10 km" },
 ];
 
 export default function Location() {
