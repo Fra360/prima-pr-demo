@@ -22,8 +22,9 @@ export default function Home() {
           <Navbar />
           <Hero />
           <About />
-          <Gallery />
+          {/* Prima si esplora il modello 3D, poi si sfogliano le foto */}
           <Explore3D />
+          <Gallery />
           <Amenities />
           <Location />
           <Reviews />
