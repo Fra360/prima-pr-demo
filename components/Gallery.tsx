@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Placeholder from "./Placeholder";
 import Reveal from "./Reveal";
+import { useCoverflow } from "./useCoverflow";
 
 /**
  * Sezione scura: nessuno sfondo proprio, si vede il blu profondo del body
@@ -56,6 +57,10 @@ export default function Gallery() {
     };
   }, [aggiornaEstremi]);
 
+  // Profondita legata allo scroll: la card al centro davanti, le altre
+  // arretrate. Scrive solo custom property, il resto lo fa il CSS.
+  useCoverflow(scroller);
+
   const scorri = (verso: 1 | -1) => {
     const el = scroller.current;
     if (!el) return;
@@ -63,6 +68,18 @@ export default function Gallery() {
     const card = el.querySelector("li");
     const passo = card ? card.getBoundingClientRect().width + 16 : el.clientWidth * 0.8;
     el.scrollBy({ left: passo * verso, behavior: "smooth" });
+  };
+
+  // Frecce da tastiera: il contenitore e focusabile, ma le frecce native
+  // scorrerebbero di pochi pixel invece che di una card.
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      scorri(1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      scorri(-1);
+    }
   };
 
   return (
@@ -113,8 +130,9 @@ export default function Gallery() {
           ref={scroller}
           tabIndex={0}
           role="region"
-          aria-label="Foto di Casa Omero, scorrimento orizzontale"
-          className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-6 pb-2 [scroll-padding-left:1.5rem] md:px-[max(1.5rem,calc((100vw-72rem)/2))] md:[scroll-padding-left:max(1.5rem,calc((100vw-72rem)/2))]"
+          aria-label="Foto di Casa Omero: scorri in orizzontale, o usa le frecce sinistra e destra"
+          onKeyDown={onKeyDown}
+          className="coverflow no-scrollbar flex snap-x snap-mandatory items-center gap-4 overflow-x-auto scroll-smooth px-6 pb-2 [scroll-padding-left:1.5rem] md:px-[max(1.5rem,calc((100vw-72rem)/2))] md:[scroll-padding-left:max(1.5rem,calc((100vw-72rem)/2))]"
         >
           {photos.map((p) => (
             <li
