@@ -52,7 +52,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      {/* `motion-enabled` accende micro-interazioni e carosello in profondita.
+          Tutte le regole nuove stanno sotto questa classe: togliendola il sito
+          torna esattamente all'aspetto precedente, senza rimuovere codice.
+          Utile per confrontare prima/dopo — da console:
+          document.body.classList.toggle("motion-enabled") */}
+      <body className="motion-enabled">{children}</body>
     </html>
   );
 }

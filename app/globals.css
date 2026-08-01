@@ -672,3 +672,145 @@ body {
 model-viewer::part(default-progress-bar) {
   display: none;
 }
+
+/* ==========================================================================
+   10. MOTION — micro-interazioni
+   Tutto sotto `.motion-enabled` (classe sul <body>): togliendola il sito
+   torna all'aspetto precedente senza rimuovere codice.
+
+   Personalita del movimento, uguale su ogni elemento interattivo:
+   - si entra piano e si esce prima  -> l'hover "galleggia"
+   - si preme di scatto              -> il click risponde subito
+   Anima solo transform, opacity e box-shadow: niente proprieta di layout,
+   quindi nessuno spostamento del contenuto (CLS = 0).
+   ========================================================================== */
+
+:root {
+  /* 200ms: sopra i 250 l'hover sembra molle, sotto i 150 sembra un salto */
+  --m-hover: 200ms;
+  /* 110ms: la pressione deve arrivare prima che l'occhio la cerchi */
+  --m-press: 110ms;
+  /* Decelerazione marcata: parte veloce e si posa. Stessa curva del resto
+     del sito (--ease-out), cosi il movimento ha un'unica firma */
+  --m-ease: var(--ease-out);
+  /* Rientro dalla pressione: appena elastico, non rimbalza */
+  --m-ease-press: cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Bottoni
+   -------------------------------------------------------------------------- */
+
+.motion-enabled .btn {
+  transition:
+    transform var(--m-hover) var(--m-ease),
+    box-shadow var(--m-hover) var(--m-ease),
+    background-color var(--m-hover) var(--m-ease),
+    border-color var(--m-hover) var(--m-ease),
+    color var(--m-hover) var(--m-ease);
+}
+
+/* -3px invece di -2: percepibile ma sotto la soglia in cui si "nota" */
+.motion-enabled .btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+}
+
+/* L'ombra si allunga mentre il bottone sale: e la stessa luce che scende
+   piu in basso, non un secondo effetto */
+.motion-enabled .btn--primary:hover:not(:disabled) {
+  box-shadow: 0 22px 44px -16px rgb(var(--rgb-deep-ocean) / 0.85);
+}
+.motion-enabled .btn--accent:hover:not(:disabled) {
+  box-shadow: 0 22px 44px -16px rgb(var(--rgb-deep-ocean) / 0.75);
+}
+
+/* Compressione al click: 0.97 e il minimo che si sente senza sembrare un
+   difetto. Torna a 0 su Y cosi il bottone "si appoggia" mentre lo premi */
+.motion-enabled .btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  transition-duration: var(--m-press);
+  transition-timing-function: var(--m-ease-press);
+}
+
+/* Disabilitato: nessun movimento, nessuna ombra, e si vede che non risponde */
+.motion-enabled .btn:disabled,
+.motion-enabled .btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   Vetro interattivo (frecce della galleria, pillole, link in vetro)
+   Solo su elementi cliccabili: i pannelli fermi non devono accendersi.
+
+   Il backdrop-filter NON viene animato: costa troppo. L'effetto "riflesso
+   che si accende" e l'opacita del riflesso gia presente (::before) piu un
+   anello luminoso — entrambe proprieta che il compositore gestisce bene.
+   -------------------------------------------------------------------------- */
+
+.motion-enabled :is(button, a).glass {
+  transition:
+    transform var(--m-hover) var(--m-ease),
+    box-shadow var(--m-hover) var(--m-ease);
+}
+
+.motion-enabled :is(button, a).glass::before {
+  /* A riposo il riflesso e piu tenue del suo valore pieno: l'hover lo
+     riporta a 1, cosi il bordo "si bagna" invece di illuminarsi da zero */
+  opacity: 0.7;
+  transition: opacity var(--m-hover) var(--m-ease);
+}
+
+.motion-enabled :is(button, a).glass:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.motion-enabled :is(button, a).glass:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--glass-specular),
+    var(--glass-shadow),
+    0 0 0 1px rgb(var(--rgb-light-sky) / 0.3);
+}
+
+.motion-enabled :is(button, a).glass:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+  transition-duration: var(--m-press);
+  transition-timing-function: var(--m-ease-press);
+}
+
+/* --------------------------------------------------------------------------
+   Focus da tastiera
+   L'anello NON si anima in entrata: chi naviga da tastiera deve vederlo
+   nell'istante in cui arriva. Si anima solo lo stacco, che e decorativo.
+   -------------------------------------------------------------------------- */
+
+.motion-enabled :focus-visible {
+  transition: outline-offset var(--m-press) var(--m-ease);
+}
+
+/* Su un bottone premuto l'anello si stringe insieme al bottone */
+.motion-enabled .btn:focus-visible:active {
+  outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Riduzione del movimento
+   Restano i cambi di colore (informano) e sparisce lo spostamento.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-enabled .btn:hover:not(:disabled),
+  .motion-enabled .btn:active:not(:disabled),
+  .motion-enabled :is(button, a).glass:hover:not(:disabled),
+  .motion-enabled :is(button, a).glass:active:not(:disabled) {
+    transform: none;
+  }
+  .motion-enabled .btn,
+  .motion-enabled :is(button, a).glass,
+  .motion-enabled :is(button, a).glass::before {
+    transition-duration: 1ms;
+  }
+}
