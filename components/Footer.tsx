@@ -8,7 +8,7 @@
  * la stringa e vuota la riga non viene mostrata: meglio nessun codice che un
  * codice inventato o un segnaposto pubblicato per sbaglio.
  */
-const CIN = "";
+const CIN = "IT059030C258LAFGJE";
 
 export default function Footer() {
   return (
